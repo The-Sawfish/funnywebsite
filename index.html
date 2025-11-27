@@ -2,45 +2,112 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>The Overly Dramatic Website</title>
+  <title>The Overly Dramatic & Deeply Sarcastic Website</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     :root {
-      --bg: #0b0b10;
-      --fg: #f5f2f7;
+      --bg: #05050a;
+      --fg: #f8f4ff;
       --accent: #ff4b8b;
       --accent2: #ffc857;
-      --muted: #8884a3;
+      --muted: #a3a0c2;
+      --danger: #ff5c5c;
+      --success: #7cf5c6;
     }
 
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
 
     body {
-      background: radial-gradient(circle at top, #1b1525, #05030a);
-      color: var(--fg);
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
         sans-serif;
-      min-height: 200vh; /* so we can scroll */
+      background: radial-gradient(circle at top, #1c1230, #05030a);
+      color: var(--fg);
+      min-height: 300vh; /* long page */
     }
 
-    /* Dramatic narrator bar */
+    /* Fake loading overlay */
+    .loader-overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at top, #12081f, #020008);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      color: var(--fg);
+    }
+
+    .loader-card {
+      background: rgba(10, 5, 20, 0.95);
+      border-radius: 20px;
+      padding: 24px 28px 20px;
+      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      max-width: 360px;
+      width: 90%;
+      text-align: left;
+    }
+
+    .loader-title {
+      font-size: 18px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .loader-title span.icon {
+      font-size: 20px;
+    }
+
+    .loader-subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), #ff8baa);
+      border-radius: inherit;
+      transition: width 0.2s ease-out;
+    }
+
+    .loader-message {
+      font-size: 12px;
+      color: var(--muted);
+      min-height: 18px;
+    }
+
+    /* Narrator bar */
     .narrator-bar {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      height: 60px;
-      background: rgba(10, 4, 20, 0.9);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(8px);
+      height: 64px;
+      background: rgba(7, 3, 18, 0.95);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(10px);
       display: flex;
       align-items: center;
       padding: 0 20px;
-      z-index: 999;
+      z-index: 900;
     }
 
     .narrator-avatar {
@@ -54,11 +121,21 @@
       margin-right: 12px;
       font-size: 20px;
       animation: pulse 1.8s infinite;
+      background: radial-gradient(circle at top, #2a1235, #12061d);
+    }
+
+    .narrator-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      margin-right: 10px;
+      white-space: nowrap;
     }
 
     .narrator-text {
       flex: 1;
-      font-size: 15px;
+      font-size: 14px;
       color: var(--fg);
       overflow: hidden;
       white-space: nowrap;
@@ -67,46 +144,64 @@
 
     .narrator-text span {
       display: inline-block;
-      animation: fadeInUp 0.4s ease-out;
+      animation: fadeInUp 0.25s ease-out;
     }
 
-    .narrator-tag {
+    .narrator-right {
       font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
       color: var(--muted);
-      margin-right: 10px;
+      margin-left: 10px;
+      white-space: nowrap;
     }
 
-    /* Main layout */
+    /* Layout */
     .page {
       margin-top: 80px;
       padding: 24px;
-      max-width: 900px;
+      max-width: 1000px;
       margin-left: auto;
       margin-right: auto;
     }
 
     .title {
-      font-size: 42px;
-      margin-bottom: 12px;
+      font-size: 40px;
+      margin-bottom: 10px;
     }
 
     .subtitle {
+      font-size: 15px;
       color: var(--muted);
+      max-width: 620px;
       margin-bottom: 28px;
-      max-width: 600px;
     }
 
-    /* Stage area */
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .pill span.icon {
+      font-size: 13px;
+    }
+
+    /* Stage */
     .stage {
-      position: relative;
-      background: radial-gradient(circle at top, #261033, #0b0715);
-      border-radius: 24px;
-      padding: 24px;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+      background: radial-gradient(circle at top, #29123c, #0a0514);
+      border-radius: 22px;
+      padding: 22px;
+      margin-bottom: 26px;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      margin-bottom: 28px;
+      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.7);
+      position: relative;
       overflow: hidden;
     }
 
@@ -115,25 +210,26 @@
       position: absolute;
       top: -40%;
       left: -10%;
-      width: 120%;
+      right: -10%;
       height: 50%;
-      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.18), transparent 60%);
+      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.16), transparent 60%);
       opacity: 0.35;
       pointer-events: none;
     }
 
     .stage-header {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      margin-bottom: 16px;
+      align-items: center;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
     }
 
     .stage-title {
-      font-weight: 600;
-      letter-spacing: 0.03em;
       font-size: 13px;
       text-transform: uppercase;
+      letter-spacing: 0.15em;
       color: var(--muted);
     }
 
@@ -143,107 +239,205 @@
     }
 
     .quote {
-      font-size: 20px;
-      line-height: 1.4;
-      margin-bottom: 16px;
-      font-style: italic;
+      font-size: 19px;
+      line-height: 1.5;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .quote strong {
+      color: var(--accent2);
     }
 
     .quote-speaker {
       font-size: 13px;
       color: var(--muted);
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
     }
 
-    /* Dramatic buttons */
     .button-row {
-      margin-top: 18px;
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
     }
 
     .dramatic-btn {
       border-radius: 999px;
       border: none;
       padding: 8px 16px;
-      font-size: 14px;
+      font-size: 13px;
       cursor: pointer;
-      background: linear-gradient(135deg, var(--accent), #ff8ba0);
-      color: #1b0b16;
+      background: linear-gradient(135deg, var(--accent), #ff8baa);
+      color: #160615;
       font-weight: 600;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 9px 20px rgba(0, 0, 0, 0.6);
       transform: translateY(0);
-      transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
+      transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.12s ease;
     }
 
     .dramatic-btn.secondary {
       background: transparent;
       color: var(--accent2);
-      border: 1px solid rgba(255, 200, 87, 0.7);
+      border: 1px solid rgba(255, 200, 87, 0.8);
       box-shadow: none;
+    }
+
+    .dramatic-btn.danger {
+      background: linear-gradient(135deg, #ff5c5c, #ff996c);
+      color: #200204;
     }
 
     .dramatic-btn:hover {
       transform: translateY(-2px);
-      filter: brightness(1.08);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
+      filter: brightness(1.1);
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.7);
     }
 
     .dramatic-btn:active {
       transform: translateY(1px) scale(0.98);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 7px 18px rgba(0, 0, 0, 0.7);
     }
 
-    /* Activity log */
+    /* Controls */
+    .controls {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.5fr);
+      gap: 16px;
+      margin-top: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .control-card {
+      background: rgba(0, 0, 0, 0.18);
+      border-radius: 16px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .control-card h3 {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--fg);
+      margin-bottom: 6px;
+    }
+
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .slider-row span.value {
+      font-size: 12px;
+      color: var(--accent2);
+      min-width: 38px;
+      text-align: right;
+    }
+
+    input[type="range"] {
+      width: 100%;
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .toggle-row input {
+      transform: scale(1.1);
+    }
+
+    /* Log */
     .log {
-      margin-top: 20px;
+      margin-top: 12px;
       max-height: 180px;
       overflow-y: auto;
       padding-right: 6px;
-      font-size: 13px;
+      font-size: 12px;
       color: var(--muted);
     }
 
     .log-entry {
       margin-bottom: 4px;
-      opacity: 0.8;
-      animation: fadeIn 0.3s ease-out;
+      opacity: 0.85;
+      animation: fadeIn 0.25s ease-out;
+      border-left: 2px solid rgba(255, 255, 255, 0.08);
+      padding-left: 6px;
     }
 
     .log-entry strong {
       color: var(--accent2);
     }
 
-    /* Body text blocks */
+    .log-entry span.kind {
+      color: var(--accent);
+      margin-right: 3px;
+    }
+
+    /* Sections */
     .section {
       margin-top: 40px;
       line-height: 1.7;
-      color: #d4cdea;
+      color: #ded7f9;
       font-size: 15px;
     }
 
     .section h2 {
-      font-size: 20px;
+      font-size: 22px;
       margin-bottom: 8px;
     }
 
-    /* Scroll hint */
+    .section p {
+      margin-bottom: 10px;
+    }
+
+    .section ul {
+      margin-left: 18px;
+      margin-top: 6px;
+    }
+
+    .section li {
+      margin-bottom: 6px;
+    }
+
+    .side-note {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    /* Scroll bubble */
     .scroll-hint {
       position: fixed;
       right: 16px;
       bottom: 16px;
       padding: 8px 12px;
       border-radius: 999px;
-      background: rgba(2, 0, 12, 0.9);
+      background: rgba(4, 1, 12, 0.95);
       border: 1px solid rgba(255, 255, 255, 0.08);
       font-size: 12px;
       color: var(--muted);
       display: flex;
       align-items: center;
       gap: 6px;
-      z-index: 998;
+      z-index: 850;
       pointer-events: none;
-      opacity: 0.85;
+      opacity: 0.9;
+      transition: opacity 0.4s ease;
     }
 
     .scroll-hint span.icon {
@@ -253,12 +447,12 @@
     /* Animations */
     @keyframes pulse {
       0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 75, 139, 0.7); }
-      70% { transform: scale(1.04); box-shadow: 0 0 0 12px rgba(255, 75, 139, 0); }
+      70% { transform: scale(1.04); box-shadow: 0 0 0 13px rgba(255, 75, 139, 0); }
       100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 75, 139, 0); }
     }
 
     @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(6px); }
+      from { opacity: 0; transform: translateY(4px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -267,12 +461,15 @@
       to { opacity: 1; }
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 720px) {
+      .page {
+        padding: 18px;
+      }
       .title {
         font-size: 30px;
       }
-      .page {
-        padding: 18px;
+      .controls {
+        grid-template-columns: 1fr;
       }
       .stage {
         padding: 18px;
@@ -281,176 +478,393 @@
   </style>
 </head>
 <body>
+  <!-- Fake loading overlay -->
+  <div class="loader-overlay" id="loaderOverlay">
+    <div class="loader-card">
+      <div class="loader-title">
+        <span class="icon">⏳</span>
+        <span>Loading this masterpiece…</span>
+      </div>
+      <div class="loader-subtitle" id="loaderSubtitle">
+        Working. Unlike some people.
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="loader-message" id="loaderMessage">
+        Running highly unnecessary dramatic subroutines…
+      </div>
+    </div>
+  </div>
+
   <!-- Narrator bar -->
   <div class="narrator-bar">
     <div class="narrator-avatar" id="narratorAvatar">🎭</div>
     <div class="narrator-tag">Narrator</div>
     <div class="narrator-text" id="narratorText">
-      <span>Another soul has arrived. The drama begins…</span>
+      <span>Another human has arrived. Brace for questionable decisions.</span>
+    </div>
+    <div class="narrator-right" id="narratorRight">
+      Sarcasm: <span id="sarcasmLevelLabel">Medium</span>
     </div>
   </div>
 
   <!-- Scroll hint -->
   <div class="scroll-hint" id="scrollHint">
     <span class="icon">🧵</span>
-    <span>Scroll gently… the plot thickens below.</span>
+    <span>Scroll gently. The drama gets worse below.</span>
   </div>
 
   <!-- Main content -->
   <main class="page">
-    <h1 class="title">The Overly Dramatic Website</h1>
+    <div class="pill"><span class="icon">💬</span><span>Extremely opinionated webpage</span></div>
+    <h1 class="title">The Overly Dramatic & Deeply Sarcastic Website</h1>
     <p class="subtitle">
-      Every click is a betrayal. Every scroll is a plot twist. You thought this
-      was "just a webpage"… how adorably naïve.
+      This page will judge your scrolling, critique your clicking, and absolutely
+      overreact to your inactivity. Congratulations on choosing chaos.
     </p>
 
+    <!-- Stage block -->
     <section class="stage">
       <div class="stage-header">
-        <div class="stage-title">Act I · Scene I</div>
-        <div class="stage-state" id="stageState">Mood: Cautiously theatrical</div>
+        <div class="stage-title">Act I · You Opened A Tab</div>
+        <div class="stage-state" id="stageState">Mood: Mildly suspicious</div>
       </div>
       <div class="quote" id="quoteText">
-        “You hovered over that button like it meant nothing. It meant
-        <strong>everything</strong>.”
+        “You opened this page like it was nothing. It was, in fact, everything.”
       </div>
       <div class="quote-speaker" id="quoteSpeaker">
-        — The Website, seconds before overreacting
+        — The Website, already overattached
       </div>
 
       <div class="button-row">
         <button class="dramatic-btn" id="bigDecisionBtn">
-          Make a Terrible Decision
+          Make a Questionable Decision
         </button>
         <button class="dramatic-btn secondary" id="tinyActionBtn">
-          Do Something Mildly Inconsequential
+          Do Something Pointless
+        </button>
+        <button class="dramatic-btn danger" id="chaosBtn">
+          Summon More Chaos
         </button>
         <button class="dramatic-btn secondary" id="apologizeBtn">
           Apologize to the Website
         </button>
       </div>
 
+      <div class="controls">
+        <div class="control-card">
+          <h3>Emotional Settings</h3>
+          <div class="slider-row">
+            <label for="sarcasmSlider">Sarcasm level</label>
+            <input type="range" id="sarcasmSlider" min="0" max="10" value="6" />
+            <span class="value" id="sarcasmValue">6/10</span>
+          </div>
+          <div class="toggle-row">
+            <input type="checkbox" id="chaosToggle" checked />
+            <label for="chaosToggle">Allow unhinged reactions</label>
+          </div>
+          <div class="toggle-row">
+            <input type="checkbox" id="wholesomeToggle" />
+            <label for="wholesomeToggle">Occasional sincere compliments (rare)</label>
+          </div>
+        </div>
+
+        <div class="control-card">
+          <h3>Live Diagnosis</h3>
+          <p id="diagnosisText">
+            Initial analysis: User opened a tab willingly. Risk tolerance: medium. Attention span: TBD.
+          </p>
+        </div>
+      </div>
+
       <div class="log" id="log"></div>
     </section>
 
+    <!-- Long content sections -->
     <section class="section">
-      <h2>Act II: Overthinking Your Every Move</h2>
+      <h2>Act II: The Website Develops Opinions</h2>
       <p>
-        This page is quietly narrating your actions in its head. The faint scroll
-        of your mouse wheel? A harbinger of change. The idle pause as you read
-        this sentence? A moment of unbearable suspense.
+        The average website silently accepts your presence, politely delivers content,
+        and never asks what you’re doing with your life. This website is not that website.
       </p>
       <p>
-        You may think you're “just browsing,” but the website disagrees.
-        You’re the main character now. No refunds.
+        Here, your scroll speed is a personality test. Your mouse movement is body language.
+        Your idle time is interpreted as a dramatic internal monologue.
+      </p>
+      <p>
+        Typical interpretations include (but are absolutely not limited to):
+      </p>
+      <ul>
+        <li>
+          <strong>Rapid scrolling:</strong> “Ah yes, the ‘maybe if I skim fast enough
+          I’ll absorb information by osmosis’ strategy.”
+        </li>
+        <li>
+          <strong>Very slow scrolling:</strong> “This one is reading. Suspicious.”
+        </li>
+        <li>
+          <strong>Long idle time:</strong> “They opened another tab. Betrayal.”
+        </li>
+        <li>
+          <strong>Window resize:</strong> “Trying to make responsibilities look smaller, I see.”
+        </li>
+      </ul>
+      <p class="side-note">
+        Note: None of this data is stored. The website just likes to feel important.
       </p>
     </section>
 
     <section class="section">
-      <h2>Act III: The Part Where Nothing Happens</h2>
+      <h2>Act III: A Completely Overengineered Explanation</h2>
       <p>
-        If you linger too long, the website will assume you’re contemplating a
-        life-changing decision. Or that you’ve opened another tab. Both are
-        equally tragic from its perspective.
+        Under the hood, some JavaScript is doing what JavaScript does best:
+        wildly overinterpreting harmless events.
+      </p>
+      <p>
+        Things this page reacts to:
+      </p>
+      <ul>
+        <li><strong>Clicks</strong> – judged individually and harshly.</li>
+        <li><strong>Scrolls</strong> – because what is scrolling if not running from your problems vertically?</li>
+        <li><strong>Resizing the window</strong> – symbolic attempt to control your environment.</li>
+        <li><strong>Going idle</strong> – the website assumes you’re making life choices.</li>
+        <li><strong>Switching tabs</strong> – emotional damage.</li>
+      </ul>
+      <p>
+        All of these events feed into a highly scientific system known as 
+        <em>vibes-based inference.</em> It is 0% accurate and 100% confident.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Act IV: The Part Where Nothing Changes But We Pretend It Did</h2>
+      <p>
+        Sliding the <strong>sarcasm level</strong> technically only changes some text,
+        but let’s both pretend it adjusts a complex neural personality model.
+      </p>
+      <p>
+        Toggling <strong>“Allow unhinged reactions”</strong> tells the site whether it’s allowed
+        to be weird or must behave like a LinkedIn post.
+      </p>
+      <p>
+        Enabling <strong>“Occasional sincere compliments”</strong> is risky. The website might say
+        something genuinely nice, and then you’ll have to process feelings.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Act V: You Reach the Bottom and Expect Closure</h2>
+      <p>
+        This is the bottom of the page. There will be no grand lesson, no deeply moving reveal,
+        and absolutely no “thanks for coming to my TED talk” moment.
+      </p>
+      <p>
+        You did, however, spend time on a page that judged your scrolling habits,
+        insulted your clicks, and pretended your idle time was character development.
+        That has to count for something. Probably.
+      </p>
+      <p class="side-note">
+        You may now close the tab. The website will pretend it’s totally fine and
+        definitely won’t think about you for the next 6–8 business years.
       </p>
     </section>
   </main>
 
   <script>
-    // === Dramatic line pools ===
+    // --- CONFIG ---
+
+    const loaderMessages = [
+      "Working. Unlike some people.",
+      "Overthinking simple tasks…",
+      "Consulting eight imaginary committees…",
+      "Dramatically sighing in binary…",
+      "Rendering pixels with unnecessary flair…",
+      "Googling how to impress you…",
+      "Pretending this is taking longer for suspense…",
+    ];
+
     const narratorLines = {
       clickMajor: [
-        "You clicked that button with the confidence of someone who didn't read the terms.",
-        "A single click, and yet the universe shifts ever so slightly.",
-        "Bold. Reckless. Iconic. That button never saw it coming.",
+        "You clicked that like you understood the consequences. Bold.",
+        "One click. Infinite regret potential.",
+        "That button never did anything to you, but sure. Attack it.",
+        "The confidence of that click was inspiring and worrying simultaneously.",
       ],
       clickMinor: [
-        "A tiny action, but the ripples in the narrative are… excessive.",
-        "A mild choice. The website will overanalyze it for the next 3 hours.",
-        "That was technically insignificant, but we’ll pretend it wasn’t.",
+        "Tiny action, massive overreaction. My favorite combo.",
+        "You did something small. I will now draft a 40-page emotional response.",
+        "Low-stakes click. High-stakes commentary.",
+      ],
+      chaos: [
+        "You pressed the chaos button. You can't claim surprise anymore.",
+        "Ah yes, voluntary chaos. Truly, your hobbies are concerning.",
+        "Summoning chaos… as if your life needed more.",
       ],
       apology: [
-        "An apology? Touching. Completely unnecessary, yet deeply appreciated.",
-        "Forgiveness is granted… probably. The website will bring this up later.",
-        "You apologized to HTML. This will haunt you, but in a charming way.",
+        "Apology accepted. For now. I reserve the right to bring this up later.",
+        "You apologized to a website. Frankly, that's growth.",
+        "Forgiveness granted. Emotional debt: pending.",
       ],
       scroll: [
-        "You scroll as if desperately searching for meaning… or a funny line.",
-        "Each pixel you descend brings us closer to the emotional cliff.",
-        "Ah, scrolling. The universal sign of 'I wonder what else is down there.'",
+        "Scrolling like the answers to life are somewhere down there.",
+        "Every pixel you move is character development.",
+        "You scroll, I judge. It’s a healthy dynamic.",
       ],
       idle: [
-        "The silence is deafening. Are you still there, or have you abandoned us?",
-        "The cursor sleeps. The plot stands frozen in time.",
-        "Nothing has happened for a while. It’s starting to feel symbolic.",
+        "You've been idle. I assume you're staring dramatically into the void.",
+        "Nothing happened for a while. I’m calling it a ‘reflective moment.’",
+        "The cursor sleeps. The existential dread awakens.",
       ],
       resize: [
-        "Resizing the window? Trying to change your perspective on life, are we?",
-        "You squeezed the page, and somehow it feels emotionally smaller now.",
-        "Widening the window… compensating for something?",
+        "Resizing the window won’t resize your responsibilities.",
+        "You stretched the window. Symbolic, but ultimately ineffective.",
+        "Changing width instead of your life choices. Classic.",
+      ],
+      blur: [
+        "You left the tab. Emotional damage: critical.",
+        "Ah, a new tab. No, it’s fine. I love being second choice.",
+        "You switched away. I’ll just sit here and process that.",
+      ],
+      focus: [
+        "You came back. I knew you couldn’t resist the chaos.",
+        "Welcome back. I’ve done absolutely nothing while you were gone.",
+        "Back again? Brave.",
+      ],
+      wholesome: [
+        "Random but true: you are doing better than you think.",
+        "Unsolicited kindness: I’m glad you exist on the internet today.",
+        "Small fact: your effort counts, even when it feels tiny.",
       ],
     };
 
     const stageLines = {
       major: [
         {
-          quote: "“With one reckless tap, destiny was rewritten… or at least the DOM.”",
-          speaker: "— The Button, still vibrating",
+          quote: "“With a single click, destiny shifted. Or at least the DOM did.”",
+          speaker: "— The Button, still recovering",
         },
         {
-          quote: "“If this goes wrong, remember: you initiated it.”",
-          speaker: "— The Website, not taking responsibility",
+          quote: "“This will absolutely not age well in your browser history.”",
+          speaker: "— The Internet, collectively",
         },
         {
-          quote: "“They said it was ‘just a button.’ They were wrong.”",
-          speaker: "— Local CSS, foreshadowing",
+          quote: "“They said ‘what’s the worst that could happen?’ Then they clicked.”",
+          speaker: "— Local CSS, bracing for impact",
         },
       ],
       minor: [
         {
-          quote: "“A small choice, but the drama department will spin it into a trilogy.”",
-          speaker: "— The Narrator, inflating the stakes",
+          quote: "“A small choice, inflated to cinematic importance.”",
+          speaker: "— The Narrator, milking it",
         },
         {
-          quote: "“You did something tiny. The website will now react disproportionately.”",
-          speaker: "— Reasonable People, watching",
+          quote: "“That action was 2% meaningful and 98% drama.”",
+          speaker: "— Unpaid Intern, taking notes",
+        },
+      ],
+      chaos: [
+        {
+          quote: "“You invited chaos inside and then acted surprised when it sat on your furniture.”",
+          speaker: "— Consequences, entering the chat",
+        },
+        {
+          quote: "“Chaos isn’t a bug, it’s a lifestyle setting.”",
+          speaker: "— The Config File, shrugged",
+        },
+        {
+          quote: "“Nothing says ‘I make good choices’ like pressing the chaos button on purpose.”",
+          speaker: "— Your Future Self, watching",
         },
       ],
       apology: [
         {
-          quote: "“Closure? On the internet? How adorably optimistic.”",
-          speaker: "— The Comment Section, scoffing from afar",
+          quote: "“Closure on the internet? Unusual, but I’ll allow it.”",
+          speaker: "— The 404 Page, bitterly",
         },
         {
-          quote: "“Forgiveness has been issued via HTTP 200.”",
-          speaker: "— The Server, reluctantly",
+          quote: "“Forgiveness delivered via HTTP 200: OK (emotionally debatable).”",
+          speaker: "— The Server, begrudgingly",
         },
       ],
       idle: [
         {
-          quote: "“Sometimes, the most dramatic thing you can do… is nothing.”",
-          speaker: "— The Progress Bar, at 0%",
+          quote: "“No movement. Just silence. This must be symbolism.”",
+          speaker: "— The Progress Bar, still at 0%",
         },
       ],
       scroll: [
         {
-          quote: "“They keep scrolling, as if the next paragraph will fix everything.”",
-          speaker: "— The Footer, patiently waiting",
+          quote: "“They scroll downward as if the next paragraph will fix everything.”",
+          speaker: "— The Footer, waiting eternally",
         },
       ],
       resize: [
         {
-          quote: "“The frame changes, but the drama remains.”",
+          quote: "“The aspect ratio changed. The personality did not.”",
           speaker: "— The Layout, responsively",
+        },
+      ],
+      blur: [
+        {
+          quote: "“Abandoned for another tab. Classic.”",
+          speaker: "— This Page, in denial",
+        },
+      ],
+      focus: [
+        {
+          quote: "“They returned. The sequel nobody asked for.”",
+          speaker: "— The Tab Title, glowing again",
+        },
+      ],
+      wholesome: [
+        {
+          quote: "“Plot twist: you’re doing okay, actually.”",
+          speaker: "— The Quiet Part, said out loud",
         },
       ],
     };
 
-    const stageStateEl = document.getElementById("stageState");
+    // --- ELEMENTS ---
+    const loaderOverlay = document.getElementById("loaderOverlay");
+    const progressFill = document.getElementById("progressFill");
+    const loaderMessageEl = document.getElementById("loaderMessage");
+    const loaderSubtitleEl = document.getElementById("loaderSubtitle");
+
     const narratorTextEl = document.getElementById("narratorText");
+    const narratorRightEl = document.getElementById("narratorRight");
+    const sarcasmLevelLabel = document.getElementById("sarcasmLevelLabel");
+
     const quoteTextEl = document.getElementById("quoteText");
     const quoteSpeakerEl = document.getElementById("quoteSpeaker");
+    const stageStateEl = document.getElementById("stageState");
+    const diagnosisTextEl = document.getElementById("diagnosisText");
     const logEl = document.getElementById("log");
     const scrollHintEl = document.getElementById("scrollHint");
+
+    const bigDecisionBtn = document.getElementById("bigDecisionBtn");
+    const tinyActionBtn = document.getElementById("tinyActionBtn");
+    const chaosBtn = document.getElementById("chaosBtn");
+    const apologizeBtn = document.getElementById("apologizeBtn");
+
+    const sarcasmSlider = document.getElementById("sarcasmSlider");
+    const sarcasmValueLabel = document.getElementById("sarcasmValue");
+    const chaosToggle = document.getElementById("chaosToggle");
+    const wholesomeToggle = document.getElementById("wholesomeToggle");
+
+    // --- STATE ---
+    let sarcasmLevel = 6;
+    let lastScrollY = window.scrollY;
+    let scrollTimeout = null;
+    let idleTimer = null;
+    const idleDelayMs = 9000;
+    let resizeTimeout = null;
+    let lastInteractionTime = Date.now();
+
+    // --- UTILS ---
+    function randomFrom(list) {
+      return list[Math.floor(Math.random() * list.length)];
+    }
 
     function setNarratorLine(text) {
       narratorTextEl.innerHTML = "";
@@ -462,7 +876,7 @@
     function setStageLine(type) {
       const pool = stageLines[type] || [];
       if (!pool.length) return;
-      const line = pool[Math.floor(Math.random() * pool.length)];
+      const line = randomFrom(pool);
       quoteTextEl.innerHTML = line.quote;
       quoteSpeakerEl.textContent = line.speaker;
     }
@@ -471,99 +885,261 @@
       const time = new Date().toLocaleTimeString();
       const div = document.createElement("div");
       div.className = "log-entry";
-      div.innerHTML = `<strong>[${time}] ${kind}:</strong> ${detail}`;
+      div.innerHTML = `<strong>[${time}]</strong> <span class="kind">${kind}</span> ${detail}`;
       logEl.prepend(div);
 
-      // Keep log from growing forever
       const entries = logEl.querySelectorAll(".log-entry");
-      if (entries.length > 80) {
+      if (entries.length > 120) {
         entries[entries.length - 1].remove();
       }
     }
 
-    function randomFrom(list) {
-      return list[Math.floor(Math.random() * list.length)];
+    function updateDiagnosis() {
+      const now = Date.now();
+      const idleSeconds = Math.floor((now - lastInteractionTime) / 1000);
+      let line = "Live analysis: ";
+
+      if (idleSeconds < 5) {
+        line += "User actively poking things. Curiosity: high. Self-control: questionable.";
+      } else if (idleSeconds < 20) {
+        line += "User reading or pretending to. Processing chaotic typography.";
+      } else {
+        line += "User might be staring into space or reading intensely. Equally valid.";
+      }
+
+      if (!chaosToggle.checked) {
+        line += " Chaos filter: ON. Website attempting to behave like an adult.";
+      }
+      if (wholesomeToggle.checked) {
+        line += " Wholesome mode enabled. Unexpected emotional support may occur.";
+      }
+
+      diagnosisTextEl.textContent = line;
     }
 
-    // === Button interactions ===
-    document.getElementById("bigDecisionBtn").addEventListener("click", () => {
+    function updateSarcasmUI() {
+      sarcasmValueLabel.textContent = `${sarcasmLevel}/10`;
+      if (sarcasmLevel <= 3) {
+        sarcasmLevelLabel.textContent = "Low";
+        narratorRightEl.innerHTML = 'Sarcasm: <span id="sarcasmLevelLabel">Low</span>';
+      } else if (sarcasmLevel <= 7) {
+        sarcasmLevelLabel.textContent = "Medium";
+        narratorRightEl.innerHTML = 'Sarcasm: <span id="sarcasmLevelLabel">Medium</span>';
+      } else {
+        sarcasmLevelLabel.textContent = "Unnecessary";
+        narratorRightEl.innerHTML = 'Sarcasm: <span id="sarcasmLevelLabel">Unnecessary</span>';
+      }
+    }
+
+    function maybeWholesomeMoment() {
+      if (!wholesomeToggle.checked) return;
+      // 15% chance
+      if (Math.random() < 0.15) {
+        setNarratorLine(randomFrom(narratorLines.wholesome));
+        setStageLine("wholesome");
+        stageStateEl.textContent = "Mood: Accidentally supportive";
+        addLogEntry("Wholesome", "Website briefly resisted the urge to be sarcastic.");
+      }
+    }
+
+    // --- LOADER LOGIC ---
+    (function runLoader() {
+      let progress = 0;
+      let msgIndex = 0;
+
+      loaderSubtitleEl.textContent = randomFrom(loaderMessages);
+
+      const interval = setInterval(() => {
+        progress += Math.random() * 15;
+        if (progress > 100) progress = 100;
+        progressFill.style.width = `${progress}%`;
+
+        // cycle messages
+        if (Math.random() < 0.4) {
+          loaderMessageEl.textContent = randomFrom(loaderMessages);
+        }
+
+        if (progress >= 100) {
+          clearInterval(interval);
+          setTimeout(() => {
+            loaderOverlay.style.opacity = "1";
+            loaderOverlay.style.transition = "opacity 0.6s ease";
+            loaderOverlay.style.opacity = "0";
+            setTimeout(() => {
+              loaderOverlay.style.display = "none";
+              setNarratorLine("Loading complete. Expectations: unrealistically high.");
+              addLogEntry("System", "Page dramatically finished loading.");
+            }, 650);
+          }, 600);
+        }
+      }, 450);
+    })();
+
+    // --- INTERACTION HANDLERS ---
+
+    function recordInteraction() {
+      lastInteractionTime = Date.now();
+      updateDiagnosis();
+    }
+
+    // Button interactions
+    bigDecisionBtn.addEventListener("click", () => {
+      recordInteraction();
       setNarratorLine(randomFrom(narratorLines.clickMajor));
       setStageLine("major");
-      stageStateEl.textContent = "Mood: Dangerously overinvested";
-      addLogEntry("Action", "User made a large, suspiciously confident decision.");
+      stageStateEl.textContent = "Mood: Bracing for consequences";
+      addLogEntry("Click", "User made a decision with suspicious confidence.");
+      maybeWholesomeMoment();
     });
 
-    document.getElementById("tinyActionBtn").addEventListener("click", () => {
+    tinyActionBtn.addEventListener("click", () => {
+      recordInteraction();
       setNarratorLine(randomFrom(narratorLines.clickMinor));
       setStageLine("minor");
-      stageStateEl.textContent = "Mood: Overthinking tiny choices";
-      addLogEntry("Action", "User did something small. Website wrote a thesis about it.");
+      stageStateEl.textContent = "Mood: Overanalyzing small choices";
+      addLogEntry("Click", "User did something tiny. Website took it personally.");
+      maybeWholesomeMoment();
     });
 
-    document.getElementById("apologizeBtn").addEventListener("click", () => {
+    chaosBtn.addEventListener("click", () => {
+      recordInteraction();
+      if (!chaosToggle.checked) {
+        setNarratorLine("Chaos button pressed while chaos is disabled. That’s… a choice.");
+        stageStateEl.textContent = "Mood: Conflicted but intrigued";
+        setStageLine("minor");
+        addLogEntry("Chaos", "User wanted chaos, but the safety is on.");
+      } else {
+        setNarratorLine(randomFrom(narratorLines.chaos));
+        setStageLine("chaos");
+        stageStateEl.textContent = "Mood: Unsupervised and proud of it";
+        addLogEntry("Chaos", "User explicitly consented to nonsense.");
+      }
+      maybeWholesomeMoment();
+    });
+
+    apologizeBtn.addEventListener("click", () => {
+      recordInteraction();
       setNarratorLine(randomFrom(narratorLines.apology));
       setStageLine("apology");
-      stageStateEl.textContent = "Mood: Emotionally processing your apology";
-      addLogEntry("Action", "User apologized to the website. The internet heals, slightly.");
+      stageStateEl.textContent = "Mood: Emotionally processing";
+      addLogEntry("Apology", "User apologized to the website. History will remember this.");
+      maybeWholesomeMoment();
     });
 
-    // === Scroll behavior ===
-    let lastScrollY = window.scrollY;
-    let scrollTimeout = null;
+    // Sarcasm slider
+    sarcasmSlider.addEventListener("input", (e) => {
+      sarcasmLevel = parseInt(e.target.value, 10) || 0;
+      updateSarcasmUI();
+      recordInteraction();
 
+      if (sarcasmLevel <= 3) {
+        setNarratorLine("Sarcasm dialed down. I’ll try being normal. No promises.");
+      } else if (sarcasmLevel <= 7) {
+        setNarratorLine("Sarcasm set to ‘respectable.’ Balance is for the weak, but fine.");
+      } else {
+        setNarratorLine("Sarcasm maxed. You asked for this.");
+      }
+      addLogEntry("Settings", `User set sarcasm level to ${sarcasmLevel}/10.`);
+    });
+
+    chaosToggle.addEventListener("change", () => {
+      recordInteraction();
+      if (chaosToggle.checked) {
+        setNarratorLine("Chaos enabled. Excellent survival strategy.");
+        addLogEntry("Settings", "User enabled unhinged reactions.");
+      } else {
+        setNarratorLine("Chaos disabled. We are now in professional mode. Ew.");
+        addLogEntry("Settings", "User disabled unhinged reactions. Website is sulking.");
+      }
+    });
+
+    wholesomeToggle.addEventListener("change", () => {
+      recordInteraction();
+      if (wholesomeToggle.checked) {
+        setNarratorLine("Wholesome mode on. Expect rare but genuine kindness.");
+        addLogEntry("Settings", "User enabled wholesome interludes. Feelings detected.");
+      } else {
+        setNarratorLine("Wholesome mode off. Back to emotional deflection.");
+        addLogEntry("Settings", "User disabled wholesome interludes. Edge restored.");
+      }
+    });
+
+    // Scroll behavior
     window.addEventListener("scroll", () => {
+      recordInteraction();
       if (scrollTimeout) clearTimeout(scrollTimeout);
-      scrollHintEl.style.opacity = "0"; // hide hint after first scroll
+      scrollHintEl.style.opacity = "0"; // hide after first active scroll
 
       const delta = Math.abs(window.scrollY - lastScrollY);
-      if (delta > 25) {
+      if (delta > 40) {
         setNarratorLine(randomFrom(narratorLines.scroll));
         setStageLine("scroll");
         stageStateEl.textContent = "Mood: Dramatically descending";
-        addLogEntry("Scroll", `User scrolled ~${delta.toFixed(0)} pixels.`);
+        addLogEntry("Scroll", `User scrolled by ~${delta.toFixed(0)} pixels.`);
       }
       lastScrollY = window.scrollY;
 
       scrollTimeout = setTimeout(() => {
-        // Subtle line when scrolling stops
-        setNarratorLine("The scrolling ceases. For now.");
-      }, 800);
+        setNarratorLine("The scrolling stops. The overthinking continues.");
+      }, 900);
     });
 
-    // === Idle detection ===
-    let idleTimer = null;
-    const idleDelayMs = 9000;
-
+    // Idle detection
     function resetIdleTimer() {
       if (idleTimer) clearTimeout(idleTimer);
       idleTimer = setTimeout(() => {
         setNarratorLine(randomFrom(narratorLines.idle));
         setStageLine("idle");
         stageStateEl.textContent = "Mood: Suspiciously quiet";
-        addLogEntry("Idle", "Nothing happened for a dramatic amount of time.");
+        addLogEntry("Idle", "User did nothing for a dramatically long moment.");
+        maybeWholesomeMoment();
       }, idleDelayMs);
     }
 
     ["mousemove", "keydown", "click", "scroll"].forEach((evt) =>
-      window.addEventListener(evt, resetIdleTimer)
+      window.addEventListener(evt, () => {
+        recordInteraction();
+        resetIdleTimer();
+      })
     );
     resetIdleTimer();
 
-    // === Resize dramatics ===
-    let resizeTimeout = null;
+    // Resize dramatics
     window.addEventListener("resize", () => {
+      recordInteraction();
       if (resizeTimeout) clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(() => {
         setNarratorLine(randomFrom(narratorLines.resize));
         setStageLine("resize");
         stageStateEl.textContent = "Mood: Experiencing an aspect ratio crisis";
-        addLogEntry("Resize", "User reshaped the world. Or the window. Same difference.");
-      }, 400);
+        addLogEntry("Resize", "User reshaped the window like it was their life plan.");
+      }, 350);
     });
 
-    // Initial hint fade-out after a while
+    // Focus / blur
+    window.addEventListener("blur", () => {
+      setNarratorLine(randomFrom(narratorLines.blur));
+      setStageLine("blur");
+      stageStateEl.textContent = "Mood: Abandoned for another tab";
+      addLogEntry("Focus", "User left the tab. Trust issues intensify.");
+    });
+
+    window.addEventListener("focus", () => {
+      recordInteraction();
+      setNarratorLine(randomFrom(narratorLines.focus));
+      setStageLine("focus");
+      stageStateEl.textContent = "Mood: Begrudgingly pleased you returned";
+      addLogEntry("Focus", "User returned to the tab. Sequel unlocked.");
+      maybeWholesomeMoment();
+    });
+
+    // Initial UI state
+    updateSarcasmUI();
+    updateDiagnosis();
+
+    // Subtle hint fade-out later
     setTimeout(() => {
-      scrollHintEl.style.opacity = "0.4";
+      scrollHintEl.style.opacity = "0.45";
     }, 4000);
   </script>
 </body>
