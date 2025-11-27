@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>The Overly Dramatic Website</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #0b0b10;
+      --fg: #f5f2f7;
+      --accent: #ff4b8b;
+      --accent2: #ffc857;
+      --muted: #8884a3;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #1b1525, #05030a);
+      color: var(--fg);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      min-height: 200vh; /* so we can scroll */
+    }
+
+    /* Dramatic narrator bar */
+    .narrator-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: rgba(10, 4, 20, 0.9);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      z-index: 999;
+    }
+
+    .narrator-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      font-size: 20px;
+      animation: pulse 1.8s infinite;
+    }
+
+    .narrator-text {
+      flex: 1;
+      font-size: 15px;
+      color: var(--fg);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .narrator-text span {
+      display: inline-block;
+      animation: fadeInUp 0.4s ease-out;
+    }
+
+    .narrator-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-right: 10px;
+    }
+
+    /* Main layout */
+    .page {
+      margin-top: 80px;
+      padding: 24px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .title {
+      font-size: 42px;
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin-bottom: 28px;
+      max-width: 600px;
+    }
+
+    /* Stage area */
+    .stage {
+      position: relative;
+      background: radial-gradient(circle at top, #261033, #0b0715);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 28px;
+      overflow: hidden;
+    }
+
+    .stage::before {
+      content: "";
+      position: absolute;
+      top: -40%;
+      left: -10%;
+      width: 120%;
+      height: 50%;
+      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.18), transparent 60%);
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .stage-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .stage-title {
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      font-size: 13px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .stage-state {
+      font-size: 12px;
+      color: var(--accent2);
+    }
+
+    .quote {
+      font-size: 20px;
+      line-height: 1.4;
+      margin-bottom: 16px;
+      font-style: italic;
+    }
+
+    .quote-speaker {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* Dramatic buttons */
+    .button-row {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .dramatic-btn {
+      border-radius: 999px;
+      border: none;
+      padding: 8px 16px;
+      font-size: 14px;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--accent), #ff8ba0);
+      color: #1b0b16;
+      font-weight: 600;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      transform: translateY(0);
+      transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
+    }
+
+    .dramatic-btn.secondary {
+      background: transparent;
+      color: var(--accent2);
+      border: 1px solid rgba(255, 200, 87, 0.7);
+      box-shadow: none;
+    }
+
+    .dramatic-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
+    }
+
+    .dramatic-btn:active {
+      transform: translateY(1px) scale(0.98);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Activity log */
+    .log {
+      margin-top: 20px;
+      max-height: 180px;
+      overflow-y: auto;
+      padding-right: 6px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .log-entry {
+      margin-bottom: 4px;
+      opacity: 0.8;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .log-entry strong {
+      color: var(--accent2);
+    }
+
+    /* Body text blocks */
+    .section {
+      margin-top: 40px;
+      line-height: 1.7;
+      color: #d4cdea;
+      font-size: 15px;
+    }
+
+    .section h2 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    /* Scroll hint */
+    .scroll-hint {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(2, 0, 12, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 998;
+      pointer-events: none;
+      opacity: 0.85;
+    }
+
+    .scroll-hint span.icon {
+      font-size: 14px;
+    }
+
+    /* Animations */
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 75, 139, 0.7); }
+      70% { transform: scale(1.04); box-shadow: 0 0 0 12px rgba(255, 75, 139, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 75, 139, 0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 600px) {
+      .title {
+        font-size: 30px;
+      }
+      .page {
+        padding: 18px;
+      }
+      .stage {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Narrator bar -->
+  <div class="narrator-bar">
+    <div class="narrator-avatar" id="narratorAvatar">🎭</div>
+    <div class="narrator-tag">Narrator</div>
+    <div class="narrator-text" id="narratorText">
+      <span>Another soul has arrived. The drama begins…</span>
+    </div>
+  </div>
+
+  <!-- Scroll hint -->
+  <div class="scroll-hint" id="scrollHint">
+    <span class="icon">🧵</span>
+    <span>Scroll gently… the plot thickens below.</span>
+  </div>
+
+  <!-- Main content -->
+  <main class="page">
+    <h1 class="title">The Overly Dramatic Website</h1>
+    <p class="subtitle">
+      Every click is a betrayal. Every scroll is a plot twist. You thought this
+      was "just a webpage"… how adorably naïve.
+    </p>
+
+    <section class="stage">
+      <div class="stage-header">
+        <div class="stage-title">Act I · Scene I</div>
+        <div class="stage-state" id="stageState">Mood: Cautiously theatrical</div>
+      </div>
+      <div class="quote" id="quoteText">
+        “You hovered over that button like it meant nothing. It meant
+        <strong>everything</strong>.”
+      </div>
+      <div class="quote-speaker" id="quoteSpeaker">
+        — The Website, seconds before overreacting
+      </div>
+
+      <div class="button-row">
+        <button class="dramatic-btn" id="bigDecisionBtn">
+          Make a Terrible Decision
+        </button>
+        <button class="dramatic-btn secondary" id="tinyActionBtn">
+          Do Something Mildly Inconsequential
+        </button>
+        <button class="dramatic-btn secondary" id="apologizeBtn">
+          Apologize to the Website
+        </button>
+      </div>
+
+      <div class="log" id="log"></div>
+    </section>
+
+    <section class="section">
+      <h2>Act II: Overthinking Your Every Move</h2>
+      <p>
+        This page is quietly narrating your actions in its head. The faint scroll
+        of your mouse wheel? A harbinger of change. The idle pause as you read
+        this sentence? A moment of unbearable suspense.
+      </p>
+      <p>
+        You may think you're “just browsing,” but the website disagrees.
+        You’re the main character now. No refunds.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Act III: The Part Where Nothing Happens</h2>
+      <p>
+        If you linger too long, the website will assume you’re contemplating a
+        life-changing decision. Or that you’ve opened another tab. Both are
+        equally tragic from its perspective.
+      </p>
+    </section>
+  </main>
+
+  <script>
+    // === Dramatic line pools ===
+    const narratorLines = {
+      clickMajor: [
+        "You clicked that button with the confidence of someone who didn't read the terms.",
+        "A single click, and yet the universe shifts ever so slightly.",
+        "Bold. Reckless. Iconic. That button never saw it coming.",
+      ],
+      clickMinor: [
+        "A tiny action, but the ripples in the narrative are… excessive.",
+        "A mild choice. The website will overanalyze it for the next 3 hours.",
+        "That was technically insignificant, but we’ll pretend it wasn’t.",
+      ],
+      apology: [
+        "An apology? Touching. Completely unnecessary, yet deeply appreciated.",
+        "Forgiveness is granted… probably. The website will bring this up later.",
+        "You apologized to HTML. This will haunt you, but in a charming way.",
+      ],
+      scroll: [
+        "You scroll as if desperately searching for meaning… or a funny line.",
+        "Each pixel you descend brings us closer to the emotional cliff.",
+        "Ah, scrolling. The universal sign of 'I wonder what else is down there.'",
+      ],
+      idle: [
+        "The silence is deafening. Are you still there, or have you abandoned us?",
+        "The cursor sleeps. The plot stands frozen in time.",
+        "Nothing has happened for a while. It’s starting to feel symbolic.",
+      ],
+      resize: [
+        "Resizing the window? Trying to change your perspective on life, are we?",
+        "You squeezed the page, and somehow it feels emotionally smaller now.",
+        "Widening the window… compensating for something?",
+      ],
+    };
+
+    const stageLines = {
+      major: [
+        {
+          quote: "“With one reckless tap, destiny was rewritten… or at least the DOM.”",
+          speaker: "— The Button, still vibrating",
+        },
+        {
+          quote: "“If this goes wrong, remember: you initiated it.”",
+          speaker: "— The Website, not taking responsibility",
+        },
+        {
+          quote: "“They said it was ‘just a button.’ They were wrong.”",
+          speaker: "— Local CSS, foreshadowing",
+        },
+      ],
+      minor: [
+        {
+          quote: "“A small choice, but the drama department will spin it into a trilogy.”",
+          speaker: "— The Narrator, inflating the stakes",
+        },
+        {
+          quote: "“You did something tiny. The website will now react disproportionately.”",
+          speaker: "— Reasonable People, watching",
+        },
+      ],
+      apology: [
+        {
+          quote: "“Closure? On the internet? How adorably optimistic.”",
+          speaker: "— The Comment Section, scoffing from afar",
+        },
+        {
+          quote: "“Forgiveness has been issued via HTTP 200.”",
+          speaker: "— The Server, reluctantly",
+        },
+      ],
+      idle: [
+        {
+          quote: "“Sometimes, the most dramatic thing you can do… is nothing.”",
+          speaker: "— The Progress Bar, at 0%",
+        },
+      ],
+      scroll: [
+        {
+          quote: "“They keep scrolling, as if the next paragraph will fix everything.”",
+          speaker: "— The Footer, patiently waiting",
+        },
+      ],
+      resize: [
+        {
+          quote: "“The frame changes, but the drama remains.”",
+          speaker: "— The Layout, responsively",
+        },
+      ],
+    };
+
+    const stageStateEl = document.getElementById("stageState");
+    const narratorTextEl = document.getElementById("narratorText");
+    const quoteTextEl = document.getElementById("quoteText");
+    const quoteSpeakerEl = document.getElementById("quoteSpeaker");
+    const logEl = document.getElementById("log");
+    const scrollHintEl = document.getElementById("scrollHint");
+
+    function setNarratorLine(text) {
+      narratorTextEl.innerHTML = "";
+      const span = document.createElement("span");
+      span.textContent = text;
+      narratorTextEl.appendChild(span);
+    }
+
+    function setStageLine(type) {
+      const pool = stageLines[type] || [];
+      if (!pool.length) return;
+      const line = pool[Math.floor(Math.random() * pool.length)];
+      quoteTextEl.innerHTML = line.quote;
+      quoteSpeakerEl.textContent = line.speaker;
+    }
+
+    function addLogEntry(kind, detail) {
+      const time = new Date().toLocaleTimeString();
+      const div = document.createElement("div");
+      div.className = "log-entry";
+      div.innerHTML = `<strong>[${time}] ${kind}:</strong> ${detail}`;
+      logEl.prepend(div);
+
+      // Keep log from growing forever
+      const entries = logEl.querySelectorAll(".log-entry");
+      if (entries.length > 80) {
+        entries[entries.length - 1].remove();
+      }
+    }
+
+    function randomFrom(list) {
+      return list[Math.floor(Math.random() * list.length)];
+    }
+
+    // === Button interactions ===
+    document.getElementById("bigDecisionBtn").addEventListener("click", () => {
+      setNarratorLine(randomFrom(narratorLines.clickMajor));
+      setStageLine("major");
+      stageStateEl.textContent = "Mood: Dangerously overinvested";
+      addLogEntry("Action", "User made a large, suspiciously confident decision.");
+    });
+
+    document.getElementById("tinyActionBtn").addEventListener("click", () => {
+      setNarratorLine(randomFrom(narratorLines.clickMinor));
+      setStageLine("minor");
+      stageStateEl.textContent = "Mood: Overthinking tiny choices";
+      addLogEntry("Action", "User did something small. Website wrote a thesis about it.");
+    });
+
+    document.getElementById("apologizeBtn").addEventListener("click", () => {
+      setNarratorLine(randomFrom(narratorLines.apology));
+      setStageLine("apology");
+      stageStateEl.textContent = "Mood: Emotionally processing your apology";
+      addLogEntry("Action", "User apologized to the website. The internet heals, slightly.");
+    });
+
+    // === Scroll behavior ===
+    let lastScrollY = window.scrollY;
+    let scrollTimeout = null;
+
+    window.addEventListener("scroll", () => {
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      scrollHintEl.style.opacity = "0"; // hide hint after first scroll
+
+      const delta = Math.abs(window.scrollY - lastScrollY);
+      if (delta > 25) {
+        setNarratorLine(randomFrom(narratorLines.scroll));
+        setStageLine("scroll");
+        stageStateEl.textContent = "Mood: Dramatically descending";
+        addLogEntry("Scroll", `User scrolled ~${delta.toFixed(0)} pixels.`);
+      }
+      lastScrollY = window.scrollY;
+
+      scrollTimeout = setTimeout(() => {
+        // Subtle line when scrolling stops
+        setNarratorLine("The scrolling ceases. For now.");
+      }, 800);
+    });
+
+    // === Idle detection ===
+    let idleTimer = null;
+    const idleDelayMs = 9000;
+
+    function resetIdleTimer() {
+      if (idleTimer) clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => {
+        setNarratorLine(randomFrom(narratorLines.idle));
+        setStageLine("idle");
+        stageStateEl.textContent = "Mood: Suspiciously quiet";
+        addLogEntry("Idle", "Nothing happened for a dramatic amount of time.");
+      }, idleDelayMs);
+    }
+
+    ["mousemove", "keydown", "click", "scroll"].forEach((evt) =>
+      window.addEventListener(evt, resetIdleTimer)
+    );
+    resetIdleTimer();
+
+    // === Resize dramatics ===
+    let resizeTimeout = null;
+    window.addEventListener("resize", () => {
+      if (resizeTimeout) clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        setNarratorLine(randomFrom(narratorLines.resize));
+        setStageLine("resize");
+        stageStateEl.textContent = "Mood: Experiencing an aspect ratio crisis";
+        addLogEntry("Resize", "User reshaped the world. Or the window. Same difference.");
+      }, 400);
+    });
+
+    // Initial hint fade-out after a while
+    setTimeout(() => {
+      scrollHintEl.style.opacity = "0.4";
+    }, 4000);
+  </script>
+</body>
+</html>
