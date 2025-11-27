@@ -2,17 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>The Overly Dramatic & Deeply Sarcastic Website</title>
+  <title>The Extremely Unhelpful Website</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     :root {
-      --bg: #05050a;
-      --fg: #f8f4ff;
+      --bg: #050508;
+      --fg: #f7f5ff;
       --accent: #ff4b8b;
       --accent2: #ffc857;
-      --muted: #a3a0c2;
-      --danger: #ff5c5c;
-      --success: #7cf5c6;
+      --muted: #a19bbf;
+      --danger: #ff6b6b;
+      --good: #81f4c6;
     }
 
     * {
@@ -24,18 +24,17 @@
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
         sans-serif;
-      background: radial-gradient(circle at top, #1c1230, #05030a);
+      background: radial-gradient(circle at top, #1b1230, #050308);
       color: var(--fg);
-      min-height: 300vh; /* long page */
+      min-height: 250vh;
     }
 
-    /* Fake loading overlay */
+    /* Fake loading */
     .loader-overlay {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at top, #12081f, #020008);
+      background: radial-gradient(circle at top, #120820, #020006);
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       z-index: 9999;
@@ -43,22 +42,22 @@
     }
 
     .loader-card {
-      background: rgba(10, 5, 20, 0.95);
+      background: rgba(5, 3, 10, 0.97);
       border-radius: 20px;
-      padding: 24px 28px 20px;
-      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      max-width: 360px;
+      padding: 22px 24px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
       width: 90%;
-      text-align: left;
+      max-width: 360px;
+      font-size: 13px;
     }
 
     .loader-title {
-      font-size: 18px;
-      margin-bottom: 12px;
       display: flex;
       align-items: center;
       gap: 8px;
+      font-size: 16px;
+      margin-bottom: 10px;
     }
 
     .loader-title span.icon {
@@ -66,15 +65,15 @@
     }
 
     .loader-subtitle {
-      font-size: 13px;
       color: var(--muted);
-      margin-bottom: 14px;
+      margin-bottom: 12px;
+      font-size: 13px;
     }
 
     .progress-bar {
       width: 100%;
       height: 8px;
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.1);
       border-radius: 999px;
       overflow: hidden;
       margin-bottom: 8px;
@@ -85,13 +84,13 @@
       width: 0%;
       background: linear-gradient(90deg, var(--accent), #ff8baa);
       border-radius: inherit;
-      transition: width 0.2s ease-out;
+      transition: width 0.25s ease-out;
     }
 
     .loader-message {
-      font-size: 12px;
       color: var(--muted);
       min-height: 18px;
+      font-size: 12px;
     }
 
     /* Narrator bar */
@@ -100,34 +99,34 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 64px;
-      background: rgba(7, 3, 18, 0.95);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-      backdrop-filter: blur(10px);
+      height: 62px;
+      background: rgba(6, 3, 15, 0.97);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
       display: flex;
       align-items: center;
-      padding: 0 20px;
-      z-index: 900;
+      padding: 0 18px;
+      z-index: 800;
     }
 
     .narrator-avatar {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       border: 2px solid var(--accent);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-right: 12px;
-      font-size: 20px;
-      animation: pulse 1.8s infinite;
-      background: radial-gradient(circle at top, #2a1235, #12061d);
+      margin-right: 10px;
+      font-size: 19px;
+      animation: pulse 1.7s infinite;
+      background: radial-gradient(circle at top, #2c1033, #100616);
     }
 
     .narrator-tag {
-      font-size: 11px;
+      font-size: 10px;
       text-transform: uppercase;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.16em;
       color: var(--muted);
       margin-right: 10px;
       white-space: nowrap;
@@ -158,225 +157,177 @@
     .page {
       margin-top: 80px;
       padding: 24px;
-      max-width: 1000px;
+      max-width: 980px;
       margin-left: auto;
       margin-right: auto;
-    }
-
-    .title {
-      font-size: 40px;
-      margin-bottom: 10px;
-    }
-
-    .subtitle {
-      font-size: 15px;
-      color: var(--muted);
-      max-width: 620px;
-      margin-bottom: 28px;
     }
 
     .pill {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 5px 10px;
+      padding: 4px 10px;
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.16);
       font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.13em;
       color: var(--muted);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .pill span.icon {
       font-size: 13px;
     }
 
-    /* Stage */
-    .stage {
-      background: radial-gradient(circle at top, #29123c, #0a0514);
-      border-radius: 22px;
-      padding: 22px;
+    .title {
+      font-size: 38px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 620px;
       margin-bottom: 26px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.7);
+    }
+
+    /* “Dashboard” area */
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.6fr);
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .card {
+      background: rgba(0, 0, 0, 0.22);
+      border-radius: 20px;
+      padding: 16px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.65);
       position: relative;
       overflow: hidden;
     }
 
-    .stage::before {
-      content: "";
-      position: absolute;
-      top: -40%;
-      left: -10%;
-      right: -10%;
-      height: 50%;
-      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.16), transparent 60%);
-      opacity: 0.35;
-      pointer-events: none;
+    .card h2 {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 10px;
     }
 
-    .stage-header {
+    .card small {
+      font-size: 11px;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .sarcasm-meter {
+      margin-top: 4px;
+    }
+
+    .sarcasm-meter-labels {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .stage-title {
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
+      font-size: 11px;
       color: var(--muted);
-    }
-
-    .stage-state {
-      font-size: 12px;
-      color: var(--accent2);
-    }
-
-    .quote {
-      font-size: 19px;
-      line-height: 1.5;
-      margin-bottom: 10px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .quote strong {
-      color: var(--accent2);
-    }
-
-    .quote-speaker {
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 10px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .button-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .dramatic-btn {
-      border-radius: 999px;
-      border: none;
-      padding: 8px 16px;
-      font-size: 13px;
-      cursor: pointer;
-      background: linear-gradient(135deg, var(--accent), #ff8baa);
-      color: #160615;
-      font-weight: 600;
-      box-shadow: 0 9px 20px rgba(0, 0, 0, 0.6);
-      transform: translateY(0);
-      transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.12s ease;
-    }
-
-    .dramatic-btn.secondary {
-      background: transparent;
-      color: var(--accent2);
-      border: 1px solid rgba(255, 200, 87, 0.8);
-      box-shadow: none;
-    }
-
-    .dramatic-btn.danger {
-      background: linear-gradient(135deg, #ff5c5c, #ff996c);
-      color: #200204;
-    }
-
-    .dramatic-btn:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.1);
-      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.7);
-    }
-
-    .dramatic-btn:active {
-      transform: translateY(1px) scale(0.98);
-      box-shadow: 0 7px 18px rgba(0, 0, 0, 0.7);
-    }
-
-    /* Controls */
-    .controls {
-      display: grid;
-      grid-template-columns: minmax(0, 2fr) minmax(0, 1.5fr);
-      gap: 16px;
-      margin-top: 12px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .control-card {
-      background: rgba(0, 0, 0, 0.18);
-      border-radius: 16px;
-      padding: 10px 12px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .control-card h3 {
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--fg);
-      margin-bottom: 6px;
-    }
-
-    .slider-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 6px;
-    }
-
-    .slider-row span.value {
-      font-size: 12px;
-      color: var(--accent2);
-      min-width: 38px;
-      text-align: right;
+      margin-top: 4px;
     }
 
     input[type="range"] {
       width: 100%;
     }
 
-    .toggle-row {
+    .fake-stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    .fake-stat {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 8px 9px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .fake-stat-label {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .fake-stat-value {
+      font-size: 14px;
+      color: var(--accent2);
+    }
+
+    /* Buttons / interactions */
+    .button-row {
       display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 4px;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 10px;
+      margin-bottom: 8px;
     }
 
-    .toggle-row input {
-      transform: scale(1.1);
+    .snark-btn {
+      border-radius: 999px;
+      border: none;
+      padding: 7px 14px;
+      font-size: 13px;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--accent), #ff8baa);
+      color: #1a0511;
+      font-weight: 600;
+      box-shadow: 0 9px 20px rgba(0, 0, 0, 0.65);
+      transform: translateY(0);
+      transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.12s ease;
     }
 
-    /* Log */
+    .snark-btn.secondary {
+      background: transparent;
+      color: var(--accent2);
+      border: 1px solid rgba(255, 200, 87, 0.75);
+      box-shadow: none;
+    }
+
+    .snark-btn.danger {
+      background: linear-gradient(135deg, var(--danger), #ff9f7a);
+      color: #2a0408;
+    }
+
+    .snark-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.1);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.75);
+    }
+
+    .snark-btn:active {
+      transform: translateY(1px) scale(0.98);
+      box-shadow: 0 7px 18px rgba(0, 0, 0, 0.75);
+    }
+
     .log {
-      margin-top: 12px;
-      max-height: 180px;
+      margin-top: 10px;
+      max-height: 140px;
       overflow-y: auto;
-      padding-right: 6px;
+      padding-right: 5px;
       font-size: 12px;
       color: var(--muted);
     }
 
     .log-entry {
       margin-bottom: 4px;
-      opacity: 0.85;
-      animation: fadeIn 0.25s ease-out;
-      border-left: 2px solid rgba(255, 255, 255, 0.08);
+      opacity: 0.9;
+      border-left: 2px solid rgba(255,255,255,0.08);
       padding-left: 6px;
+      animation: fadeIn 0.24s ease-out;
     }
 
     .log-entry strong {
@@ -385,29 +336,35 @@
 
     .log-entry span.kind {
       color: var(--accent);
-      margin-right: 3px;
+      margin-right: 4px;
+    }
+
+    .status-line {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 8px;
     }
 
     /* Sections */
     .section {
-      margin-top: 40px;
-      line-height: 1.7;
-      color: #ded7f9;
+      margin-top: 34px;
+      line-height: 1.6;
+      color: #e2ddff;
       font-size: 15px;
     }
 
-    .section h2 {
-      font-size: 22px;
-      margin-bottom: 8px;
+    .section h3 {
+      font-size: 20px;
+      margin-bottom: 6px;
     }
 
     .section p {
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .section ul {
-      margin-left: 18px;
-      margin-top: 6px;
+      margin-left: 20px;
+      margin-top: 4px;
     }
 
     .section li {
@@ -417,42 +374,71 @@
     .side-note {
       font-size: 13px;
       color: var(--muted);
-      margin-top: 6px;
+      margin-top: 4px;
     }
 
     /* Scroll bubble */
     .scroll-hint {
       position: fixed;
-      right: 16px;
-      bottom: 16px;
-      padding: 8px 12px;
+      right: 14px;
+      bottom: 14px;
+      padding: 8px 11px;
       border-radius: 999px;
-      background: rgba(4, 1, 12, 0.95);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      font-size: 12px;
+      background: rgba(3, 1, 10, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 11px;
       color: var(--muted);
       display: flex;
       align-items: center;
       gap: 6px;
-      z-index: 850;
+      z-index: 750;
       pointer-events: none;
       opacity: 0.9;
       transition: opacity 0.4s ease;
     }
 
     .scroll-hint span.icon {
-      font-size: 14px;
+      font-size: 13px;
+    }
+
+    /* Fun progress bar */
+    .life-progress {
+      margin-top: 8px;
+    }
+
+    .life-progress-bar {
+      width: 100%;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+    }
+
+    .life-progress-fill {
+      height: 100%;
+      width: 48%;
+      background: linear-gradient(90deg, var(--good), #95f3ff);
+      border-radius: inherit;
+      transition: width 0.4s ease-out;
+    }
+
+    .life-progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
     }
 
     /* Animations */
     @keyframes pulse {
       0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 75, 139, 0.7); }
-      70% { transform: scale(1.04); box-shadow: 0 0 0 13px rgba(255, 75, 139, 0); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 13px rgba(255, 75, 139, 0); }
       100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 75, 139, 0); }
     }
 
     @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(4px); }
+      from { opacity: 0; transform: translateY(5px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -461,29 +447,29 @@
       to { opacity: 1; }
     }
 
-    @media (max-width: 720px) {
+    @media (max-width: 740px) {
       .page {
         padding: 18px;
       }
       .title {
         font-size: 30px;
       }
-      .controls {
+      .grid {
         grid-template-columns: 1fr;
       }
-      .stage {
-        padding: 18px;
+      .card {
+        padding: 14px 15px;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Fake loading overlay -->
+  <!-- Fake loading -->
   <div class="loader-overlay" id="loaderOverlay">
     <div class="loader-card">
       <div class="loader-title">
         <span class="icon">⏳</span>
-        <span>Loading this masterpiece…</span>
+        <span>Loading Your Questionable Choices</span>
       </div>
       <div class="loader-subtitle" id="loaderSubtitle">
         Working. Unlike some people.
@@ -492,471 +478,216 @@
         <div class="progress-fill" id="progressFill"></div>
       </div>
       <div class="loader-message" id="loaderMessage">
-        Running highly unnecessary dramatic subroutines…
+        Overcomplicating simple HTML for dramatic effect…
       </div>
     </div>
   </div>
 
   <!-- Narrator bar -->
   <div class="narrator-bar">
-    <div class="narrator-avatar" id="narratorAvatar">🎭</div>
-    <div class="narrator-tag">Narrator</div>
+    <div class="narrator-avatar">🙃</div>
+    <div class="narrator-tag">Website</div>
     <div class="narrator-text" id="narratorText">
-      <span>Another human has arrived. Brace for questionable decisions.</span>
+      <span>Welcome. I’ll be judging your every scroll in silence. And out loud.</span>
     </div>
     <div class="narrator-right" id="narratorRight">
-      Sarcasm: <span id="sarcasmLevelLabel">Medium</span>
+      Sarcasm: <strong id="sarcasmLabel">Medium</strong>
     </div>
   </div>
 
   <!-- Scroll hint -->
   <div class="scroll-hint" id="scrollHint">
     <span class="icon">🧵</span>
-    <span>Scroll gently. The drama gets worse below.</span>
+    <span>Scroll slowly. I’m trying to build a narrative.</span>
   </div>
 
   <!-- Main content -->
   <main class="page">
-    <div class="pill"><span class="icon">💬</span><span>Extremely opinionated webpage</span></div>
-    <h1 class="title">The Overly Dramatic & Deeply Sarcastic Website</h1>
+    <div class="pill">
+      <span class="icon">💬</span>
+      <span>Extremely unhelpful, surprisingly opinionated</span>
+    </div>
+    <h1 class="title">The Extremely Unhelpful Website</h1>
     <p class="subtitle">
-      This page will judge your scrolling, critique your clicking, and absolutely
-      overreact to your inactivity. Congratulations on choosing chaos.
+      This page exists purely to provide sarcasm, fake stats, and commentary on your
+      life choices in the last 0.3 seconds. It offers nothing of value, and yet
+      here you are. Fascinating.
     </p>
 
-    <!-- Stage block -->
-    <section class="stage">
-      <div class="stage-header">
-        <div class="stage-title">Act I · You Opened A Tab</div>
-        <div class="stage-state" id="stageState">Mood: Mildly suspicious</div>
-      </div>
-      <div class="quote" id="quoteText">
-        “You opened this page like it was nothing. It was, in fact, everything.”
-      </div>
-      <div class="quote-speaker" id="quoteSpeaker">
-        — The Website, already overattached
-      </div>
+    <div class="grid">
+      <!-- Left card: controls & jokes -->
+      <section class="card">
+        <h2>Emotional Control Panel</h2>
+        <small>Feel free to adjust settings. I will ignore them at my discretion.</small>
 
-      <div class="button-row">
-        <button class="dramatic-btn" id="bigDecisionBtn">
-          Make a Questionable Decision
-        </button>
-        <button class="dramatic-btn secondary" id="tinyActionBtn">
-          Do Something Pointless
-        </button>
-        <button class="dramatic-btn danger" id="chaosBtn">
-          Summon More Chaos
-        </button>
-        <button class="dramatic-btn secondary" id="apologizeBtn">
-          Apologize to the Website
-        </button>
-      </div>
-
-      <div class="controls">
-        <div class="control-card">
-          <h3>Emotional Settings</h3>
-          <div class="slider-row">
-            <label for="sarcasmSlider">Sarcasm level</label>
-            <input type="range" id="sarcasmSlider" min="0" max="10" value="6" />
-            <span class="value" id="sarcasmValue">6/10</span>
-          </div>
-          <div class="toggle-row">
-            <input type="checkbox" id="chaosToggle" checked />
-            <label for="chaosToggle">Allow unhinged reactions</label>
-          </div>
-          <div class="toggle-row">
-            <input type="checkbox" id="wholesomeToggle" />
-            <label for="wholesomeToggle">Occasional sincere compliments (rare)</label>
+        <div class="sarcasm-meter">
+          <label for="sarcasmRange">Sarcasm intensity</label>
+          <input type="range" id="sarcasmRange" min="0" max="10" value="6" />
+          <div class="sarcasm-meter-labels">
+            <span>Polite</span>
+            <span>Acceptable</span>
+            <span>Unnecessary</span>
           </div>
         </div>
 
-        <div class="control-card">
-          <h3>Live Diagnosis</h3>
-          <p id="diagnosisText">
-            Initial analysis: User opened a tab willingly. Risk tolerance: medium. Attention span: TBD.
-          </p>
+        <div class="button-row">
+          <button class="snark-btn" id="complimentBtn">Ask for a Compliment</button>
+          <button class="snark-btn secondary" id="roastBtn">Request a Roast</button>
+          <button class="snark-btn danger" id="chaosBtn">Press For Chaos</button>
         </div>
-      </div>
 
-      <div class="log" id="log"></div>
+        <div class="status-line" id="statusLine">
+          Current diagnosis: user clicked nothing yet, but the potential is worrying.
+        </div>
+
+        <div class="log" id="log"></div>
+      </section>
+
+      <!-- Right card: fake life stats -->
+      <section class="card">
+        <h2>Your Totally Scientific Dashboard</h2>
+        <small>All values are approximate and emotionally damaging.</small>
+
+        <div class="fake-stats">
+          <div class="fake-stat">
+            <div class="fake-stat-label">Tabs open right now (estimated)</div>
+            <div class="fake-stat-value" id="tabsStat">12</div>
+          </div>
+          <div class="fake-stat">
+            <div class="fake-stat-label">Times you checked your phone today</div>
+            <div class="fake-stat-value" id="phoneStat">37</div>
+          </div>
+          <div class="fake-stat">
+            <div class="fake-stat-label">Tasks completed vs started</div>
+            <div class="fake-stat-value" id="tasksStat">2 / 19</div>
+          </div>
+          <div class="fake-stat">
+            <div class="fake-stat-label">“I’ll do it later” backlog</div>
+            <div class="fake-stat-value" id="laterStat">∞</div>
+          </div>
+        </div>
+
+        <div class="life-progress">
+          <div class="life-progress-bar">
+            <div class="life-progress-fill" id="lifeProgressFill"></div>
+          </div>
+          <div class="life-progress-label">
+            <span id="lifeLabelLeft">You’re doing fine*</span>
+            <span id="lifeLabelRight">*probably</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Sections for fun text -->
+    <section class="section">
+      <h3>Feature 1: Live Commentary on Nothing</h3>
+      <p>
+        Most websites pretend not to notice you scrolling back and forth like a raccoon
+        looking for snacks in the same empty cabinet. This one does notice, and
+        frankly, it has thoughts.
+      </p>
+      <p>
+        For example, if you scroll too fast, it will assume you are:
+      </p>
+      <ul>
+        <li>Skimming for something useful (spoiler: there isn’t).</li>
+        <li>Trying to speedrun reading as a personality trait.</li>
+        <li>Hoping wisdom appears if you reach the bottom quickly.</li>
+      </ul>
+      <p class="side-note">
+        None of this is tracked, but the emotional damage is permanent.
+      </p>
     </section>
 
-    <!-- Long content sections -->
     <section class="section">
-      <h2>Act II: The Website Develops Opinions</h2>
+      <h3>Feature 2: Fake Analytics About Your Life</h3>
       <p>
-        The average website silently accepts your presence, politely delivers content,
-        and never asks what you’re doing with your life. This website is not that website.
+        The “dashboard” above uses a complex algorithm known as
+        <em>pure speculation</em> to estimate your life stats in real time.
       </p>
       <p>
-        Here, your scroll speed is a personality test. Your mouse movement is body language.
-        Your idle time is interpreted as a dramatic internal monologue.
-      </p>
-      <p>
-        Typical interpretations include (but are absolutely not limited to):
+        For example:
       </p>
       <ul>
         <li>
-          <strong>Rapid scrolling:</strong> “Ah yes, the ‘maybe if I skim fast enough
-          I’ll absorb information by osmosis’ strategy.”
+          The number of tabs you have open is assumed to be directly proportional
+          to how badly you’re avoiding the one thing you actually need to do.
         </li>
         <li>
-          <strong>Very slow scrolling:</strong> “This one is reading. Suspicious.”
+          The “tasks completed” metric stays low to maintain realism.
         </li>
         <li>
-          <strong>Long idle time:</strong> “They opened another tab. Betrayal.”
-        </li>
-        <li>
-          <strong>Window resize:</strong> “Trying to make responsibilities look smaller, I see.”
+          The “I’ll do it later” counter is permanently set to infinity
+          for... obvious reasons.
         </li>
       </ul>
       <p class="side-note">
-        Note: None of this data is stored. The website just likes to feel important.
+        If any of the numbers feel uncomfortably accurate, that’s on you, not the website.
       </p>
     </section>
 
     <section class="section">
-      <h2>Act III: A Completely Overengineered Explanation</h2>
+      <h3>Feature 3: Interactive Emotional Damage</h3>
       <p>
-        Under the hood, some JavaScript is doing what JavaScript does best:
-        wildly overinterpreting harmless events.
-      </p>
-      <p>
-        Things this page reacts to:
+        You may notice a few buttons near the top. Each does something deeply unhelpful:
       </p>
       <ul>
-        <li><strong>Clicks</strong> – judged individually and harshly.</li>
-        <li><strong>Scrolls</strong> – because what is scrolling if not running from your problems vertically?</li>
-        <li><strong>Resizing the window</strong> – symbolic attempt to control your environment.</li>
-        <li><strong>Going idle</strong> – the website assumes you’re making life choices.</li>
-        <li><strong>Switching tabs</strong> – emotional damage.</li>
+        <li><strong>Ask for a Compliment</strong> — The website begrudgingly says something nice, then ruins it.</li>
+        <li><strong>Request a Roast</strong> — It does exactly what it says. You were warned.</li>
+        <li><strong>Press For Chaos</strong> — This is here purely for legal reasons: you were given a choice.</li>
       </ul>
       <p>
-        All of these events feed into a highly scientific system known as 
-        <em>vibes-based inference.</em> It is 0% accurate and 100% confident.
+        Adjusting the sarcasm slider gives you the illusion of control. Very important for morale.
       </p>
     </section>
 
     <section class="section">
-      <h2>Act IV: The Part Where Nothing Changes But We Pretend It Did</h2>
-      <p>
-        Sliding the <strong>sarcasm level</strong> technically only changes some text,
-        but let’s both pretend it adjusts a complex neural personality model.
-      </p>
-      <p>
-        Toggling <strong>“Allow unhinged reactions”</strong> tells the site whether it’s allowed
-        to be weird or must behave like a LinkedIn post.
-      </p>
-      <p>
-        Enabling <strong>“Occasional sincere compliments”</strong> is risky. The website might say
-        something genuinely nice, and then you’ll have to process feelings.
-      </p>
-    </section>
+      <h3>FAQ: Frequently Avoided Questions</h3>
+      <p><strong>Q: What is the purpose of this website?</strong></p>
+      <p>A: Emotionally, to call you out. Technically, to flex JavaScript.</p>
 
-    <section class="section">
-      <h2>Act V: You Reach the Bottom and Expect Closure</h2>
-      <p>
-        This is the bottom of the page. There will be no grand lesson, no deeply moving reveal,
-        and absolutely no “thanks for coming to my TED talk” moment.
-      </p>
-      <p>
-        You did, however, spend time on a page that judged your scrolling habits,
-        insulted your clicks, and pretended your idle time was character development.
-        That has to count for something. Probably.
-      </p>
+      <p><strong>Q: Does it store my data?</strong></p>
+      <p>A: No. It can barely handle its own feelings.</p>
+
+      <p><strong>Q: Can I use this to be more productive?</strong></p>
+      <p>A: Absolutely not. In fact, if you’re still reading this, it's working as intended.</p>
+
       <p class="side-note">
-        You may now close the tab. The website will pretend it’s totally fine and
-        definitely won’t think about you for the next 6–8 business years.
+        If you felt personally attacked at any point, congratulations: you have self-awareness.
       </p>
     </section>
   </main>
 
   <script>
-    // --- CONFIG ---
-
-    const loaderMessages = [
-      "Working. Unlike some people.",
-      "Overthinking simple tasks…",
-      "Consulting eight imaginary committees…",
-      "Dramatically sighing in binary…",
-      "Rendering pixels with unnecessary flair…",
-      "Googling how to impress you…",
-      "Pretending this is taking longer for suspense…",
-    ];
-
-    const narratorLines = {
-      clickMajor: [
-        "You clicked that like you understood the consequences. Bold.",
-        "One click. Infinite regret potential.",
-        "That button never did anything to you, but sure. Attack it.",
-        "The confidence of that click was inspiring and worrying simultaneously.",
-      ],
-      clickMinor: [
-        "Tiny action, massive overreaction. My favorite combo.",
-        "You did something small. I will now draft a 40-page emotional response.",
-        "Low-stakes click. High-stakes commentary.",
-      ],
-      chaos: [
-        "You pressed the chaos button. You can't claim surprise anymore.",
-        "Ah yes, voluntary chaos. Truly, your hobbies are concerning.",
-        "Summoning chaos… as if your life needed more.",
-      ],
-      apology: [
-        "Apology accepted. For now. I reserve the right to bring this up later.",
-        "You apologized to a website. Frankly, that's growth.",
-        "Forgiveness granted. Emotional debt: pending.",
-      ],
-      scroll: [
-        "Scrolling like the answers to life are somewhere down there.",
-        "Every pixel you move is character development.",
-        "You scroll, I judge. It’s a healthy dynamic.",
-      ],
-      idle: [
-        "You've been idle. I assume you're staring dramatically into the void.",
-        "Nothing happened for a while. I’m calling it a ‘reflective moment.’",
-        "The cursor sleeps. The existential dread awakens.",
-      ],
-      resize: [
-        "Resizing the window won’t resize your responsibilities.",
-        "You stretched the window. Symbolic, but ultimately ineffective.",
-        "Changing width instead of your life choices. Classic.",
-      ],
-      blur: [
-        "You left the tab. Emotional damage: critical.",
-        "Ah, a new tab. No, it’s fine. I love being second choice.",
-        "You switched away. I’ll just sit here and process that.",
-      ],
-      focus: [
-        "You came back. I knew you couldn’t resist the chaos.",
-        "Welcome back. I’ve done absolutely nothing while you were gone.",
-        "Back again? Brave.",
-      ],
-      wholesome: [
-        "Random but true: you are doing better than you think.",
-        "Unsolicited kindness: I’m glad you exist on the internet today.",
-        "Small fact: your effort counts, even when it feels tiny.",
-      ],
-    };
-
-    const stageLines = {
-      major: [
-        {
-          quote: "“With a single click, destiny shifted. Or at least the DOM did.”",
-          speaker: "— The Button, still recovering",
-        },
-        {
-          quote: "“This will absolutely not age well in your browser history.”",
-          speaker: "— The Internet, collectively",
-        },
-        {
-          quote: "“They said ‘what’s the worst that could happen?’ Then they clicked.”",
-          speaker: "— Local CSS, bracing for impact",
-        },
-      ],
-      minor: [
-        {
-          quote: "“A small choice, inflated to cinematic importance.”",
-          speaker: "— The Narrator, milking it",
-        },
-        {
-          quote: "“That action was 2% meaningful and 98% drama.”",
-          speaker: "— Unpaid Intern, taking notes",
-        },
-      ],
-      chaos: [
-        {
-          quote: "“You invited chaos inside and then acted surprised when it sat on your furniture.”",
-          speaker: "— Consequences, entering the chat",
-        },
-        {
-          quote: "“Chaos isn’t a bug, it’s a lifestyle setting.”",
-          speaker: "— The Config File, shrugged",
-        },
-        {
-          quote: "“Nothing says ‘I make good choices’ like pressing the chaos button on purpose.”",
-          speaker: "— Your Future Self, watching",
-        },
-      ],
-      apology: [
-        {
-          quote: "“Closure on the internet? Unusual, but I’ll allow it.”",
-          speaker: "— The 404 Page, bitterly",
-        },
-        {
-          quote: "“Forgiveness delivered via HTTP 200: OK (emotionally debatable).”",
-          speaker: "— The Server, begrudgingly",
-        },
-      ],
-      idle: [
-        {
-          quote: "“No movement. Just silence. This must be symbolism.”",
-          speaker: "— The Progress Bar, still at 0%",
-        },
-      ],
-      scroll: [
-        {
-          quote: "“They scroll downward as if the next paragraph will fix everything.”",
-          speaker: "— The Footer, waiting eternally",
-        },
-      ],
-      resize: [
-        {
-          quote: "“The aspect ratio changed. The personality did not.”",
-          speaker: "— The Layout, responsively",
-        },
-      ],
-      blur: [
-        {
-          quote: "“Abandoned for another tab. Classic.”",
-          speaker: "— This Page, in denial",
-        },
-      ],
-      focus: [
-        {
-          quote: "“They returned. The sequel nobody asked for.”",
-          speaker: "— The Tab Title, glowing again",
-        },
-      ],
-      wholesome: [
-        {
-          quote: "“Plot twist: you’re doing okay, actually.”",
-          speaker: "— The Quiet Part, said out loud",
-        },
-      ],
-    };
-
-    // --- ELEMENTS ---
+    // ===== LOADER =====
     const loaderOverlay = document.getElementById("loaderOverlay");
     const progressFill = document.getElementById("progressFill");
     const loaderMessageEl = document.getElementById("loaderMessage");
     const loaderSubtitleEl = document.getElementById("loaderSubtitle");
 
-    const narratorTextEl = document.getElementById("narratorText");
-    const narratorRightEl = document.getElementById("narratorRight");
-    const sarcasmLevelLabel = document.getElementById("sarcasmLevelLabel");
+    const loaderMessages = [
+      "Working. Unlike some people.",
+      "Pretending this takes time to seem impressive…",
+      "Spinning up 0.0003% of your CPU for drama.",
+      "Checking how many tabs you have open… oh.",
+      "Fine-tuning the sarcasm engines…",
+      "Googling ‘how to be a serious website’… no results found.",
+      "Compressing your expectations…",
+      "Rendering unnecessary gradients…",
+    ];
 
-    const quoteTextEl = document.getElementById("quoteText");
-    const quoteSpeakerEl = document.getElementById("quoteSpeaker");
-    const stageStateEl = document.getElementById("stageState");
-    const diagnosisTextEl = document.getElementById("diagnosisText");
-    const logEl = document.getElementById("log");
-    const scrollHintEl = document.getElementById("scrollHint");
-
-    const bigDecisionBtn = document.getElementById("bigDecisionBtn");
-    const tinyActionBtn = document.getElementById("tinyActionBtn");
-    const chaosBtn = document.getElementById("chaosBtn");
-    const apologizeBtn = document.getElementById("apologizeBtn");
-
-    const sarcasmSlider = document.getElementById("sarcasmSlider");
-    const sarcasmValueLabel = document.getElementById("sarcasmValue");
-    const chaosToggle = document.getElementById("chaosToggle");
-    const wholesomeToggle = document.getElementById("wholesomeToggle");
-
-    // --- STATE ---
-    let sarcasmLevel = 6;
-    let lastScrollY = window.scrollY;
-    let scrollTimeout = null;
-    let idleTimer = null;
-    const idleDelayMs = 9000;
-    let resizeTimeout = null;
-    let lastInteractionTime = Date.now();
-
-    // --- UTILS ---
-    function randomFrom(list) {
-      return list[Math.floor(Math.random() * list.length)];
-    }
-
-    function setNarratorLine(text) {
-      narratorTextEl.innerHTML = "";
-      const span = document.createElement("span");
-      span.textContent = text;
-      narratorTextEl.appendChild(span);
-    }
-
-    function setStageLine(type) {
-      const pool = stageLines[type] || [];
-      if (!pool.length) return;
-      const line = randomFrom(pool);
-      quoteTextEl.innerHTML = line.quote;
-      quoteSpeakerEl.textContent = line.speaker;
-    }
-
-    function addLogEntry(kind, detail) {
-      const time = new Date().toLocaleTimeString();
-      const div = document.createElement("div");
-      div.className = "log-entry";
-      div.innerHTML = `<strong>[${time}]</strong> <span class="kind">${kind}</span> ${detail}`;
-      logEl.prepend(div);
-
-      const entries = logEl.querySelectorAll(".log-entry");
-      if (entries.length > 120) {
-        entries[entries.length - 1].remove();
-      }
-    }
-
-    function updateDiagnosis() {
-      const now = Date.now();
-      const idleSeconds = Math.floor((now - lastInteractionTime) / 1000);
-      let line = "Live analysis: ";
-
-      if (idleSeconds < 5) {
-        line += "User actively poking things. Curiosity: high. Self-control: questionable.";
-      } else if (idleSeconds < 20) {
-        line += "User reading or pretending to. Processing chaotic typography.";
-      } else {
-        line += "User might be staring into space or reading intensely. Equally valid.";
-      }
-
-      if (!chaosToggle.checked) {
-        line += " Chaos filter: ON. Website attempting to behave like an adult.";
-      }
-      if (wholesomeToggle.checked) {
-        line += " Wholesome mode enabled. Unexpected emotional support may occur.";
-      }
-
-      diagnosisTextEl.textContent = line;
-    }
-
-    function updateSarcasmUI() {
-      sarcasmValueLabel.textContent = `${sarcasmLevel}/10`;
-      if (sarcasmLevel <= 3) {
-        sarcasmLevelLabel.textContent = "Low";
-        narratorRightEl.innerHTML = 'Sarcasm: <span id="sarcasmLevelLabel">Low</span>';
-      } else if (sarcasmLevel <= 7) {
-        sarcasmLevelLabel.textContent = "Medium";
-        narratorRightEl.innerHTML = 'Sarcasm: <span id="sarcasmLevelLabel">Medium</span>';
-      } else {
-        sarcasmLevelLabel.textContent = "Unnecessary";
-        narratorRightEl.innerHTML = 'Sarcasm: <span id="sarcasmLevelLabel">Unnecessary</span>';
-      }
-    }
-
-    function maybeWholesomeMoment() {
-      if (!wholesomeToggle.checked) return;
-      // 15% chance
-      if (Math.random() < 0.15) {
-        setNarratorLine(randomFrom(narratorLines.wholesome));
-        setStageLine("wholesome");
-        stageStateEl.textContent = "Mood: Accidentally supportive";
-        addLogEntry("Wholesome", "Website briefly resisted the urge to be sarcastic.");
-      }
-    }
-
-    // --- LOADER LOGIC ---
-    (function runLoader() {
+    (function fakeLoad() {
       let progress = 0;
-      let msgIndex = 0;
-
-      loaderSubtitleEl.textContent = randomFrom(loaderMessages);
+      loaderSubtitleEl.textContent = "Working. Unlike some people.";
 
       const interval = setInterval(() => {
-        progress += Math.random() * 15;
+        progress += Math.random() * 18;
         if (progress > 100) progress = 100;
-        progressFill.style.width = `${progress}%`;
+        progressFill.style.width = progress + "%";
 
-        // cycle messages
-        if (Math.random() < 0.4) {
-          loaderMessageEl.textContent = randomFrom(loaderMessages);
+        if (Math.random() < 0.5) {
+          loaderMessageEl.textContent = loaderMessages[Math.floor(Math.random() * loaderMessages.length)];
         }
 
         if (progress >= 100) {
@@ -967,179 +698,247 @@
             loaderOverlay.style.opacity = "0";
             setTimeout(() => {
               loaderOverlay.style.display = "none";
-              setNarratorLine("Loading complete. Expectations: unrealistically high.");
-              addLogEntry("System", "Page dramatically finished loading.");
             }, 650);
           }, 600);
         }
       }, 450);
     })();
 
-    // --- INTERACTION HANDLERS ---
+    // ===== ELEMENTS =====
+    const narratorTextEl = document.getElementById("narratorText");
+    const sarcasmLabelEl = document.getElementById("sarcasmLabel");
+    const scrollHintEl = document.getElementById("scrollHint");
 
-    function recordInteraction() {
-      lastInteractionTime = Date.now();
-      updateDiagnosis();
+    const sarcasmRange = document.getElementById("sarcasmRange");
+    const complimentBtn = document.getElementById("complimentBtn");
+    const roastBtn = document.getElementById("roastBtn");
+    const chaosBtn = document.getElementById("chaosBtn");
+    const statusLineEl = document.getElementById("statusLine");
+    const logEl = document.getElementById("log");
+
+    const tabsStatEl = document.getElementById("tabsStat");
+    const phoneStatEl = document.getElementById("phoneStat");
+    const tasksStatEl = document.getElementById("tasksStat");
+    const laterStatEl = document.getElementById("laterStat");
+    const lifeProgressFill = document.getElementById("lifeProgressFill");
+    const lifeLabelLeft = document.getElementById("lifeLabelLeft");
+    const lifeLabelRight = document.getElementById("lifeLabelRight");
+
+    // ===== STATE =====
+    let sarcasmLevel = 6;
+    let lastScrollY = window.scrollY;
+    let scrollTimeout = null;
+    let idleTimer = null;
+    const idleDelayMs = 8000;
+
+    const compliments = [
+      "You are doing better than your search history suggests.",
+      "Honestly? You’re way more competent than your imposter syndrome thinks.",
+      "Your ability to continue functioning while this many tabs are open is impressive.",
+      "You have main-character energy, even if you’re currently in a filler episode.",
+      "You’re significantly more likable than this website is, and that’s saying something.",
+    ];
+
+    const roasts = [
+      "You scroll like you’re going to find the meaning of life at the bottom of the page.",
+      "Your energy says “I’ll start it tomorrow” and your browser says you’ve been saying that for months.",
+      "You have 2 done tasks and 19 “in progress.” Bold strategy, let’s see how it plays out.",
+      "Your focus is doing parkour between tabs right now.",
+      "You opened this page instead of doing that thing you’re avoiding. Relatable, but exposed.",
+    ];
+
+    const chaosLines = [
+      "You pressed the chaos button on purpose. Therapy is a growth opportunity.",
+      "Chaos engaged. Please keep hands and feet inside the emotional rollercoaster.",
+      "Ah yes, voluntary nonsense. Peak human behavior.",
+      "No backsies. You summoned chaos, now enjoy the vibes.",
+    ];
+
+    const narratorScrollLines = [
+      "You’re scrolling like there’s a prize for reaching the bottom. There isn’t.",
+      "Each pixel you move is another attempt to escape responsibilities.",
+      "If scrolling burned calories, you’d be unstoppable.",
+    ];
+
+    const narratorIdleLines = [
+      "You’ve been idle. I’m assuming that’s dramatic staring, not forgetting I exist.",
+      "No activity detected. Either you’re reflecting or you opened another tab. Rude.",
+      "The cursor sleeps. The procrastination awakens.",
+    ];
+
+    const narratorFocusLines = [
+      "Welcome back. I definitely didn’t talk about you while you were gone.",
+      "You returned to this tab voluntarily. Curious.",
+      "Back again? I admire your commitment to avoiding something else.",
+    ];
+
+    const narratorBlurLines = [
+      "You left me for another tab. Classic.",
+      "It’s fine. Really. I love being background noise.",
+      "You switched away. I’ll just sit here and overthink it.",
+    ];
+
+    // ===== UTILS =====
+    function randomFrom(list) {
+      return list[Math.floor(Math.random() * list.length)];
     }
 
-    // Button interactions
-    bigDecisionBtn.addEventListener("click", () => {
-      recordInteraction();
-      setNarratorLine(randomFrom(narratorLines.clickMajor));
-      setStageLine("major");
-      stageStateEl.textContent = "Mood: Bracing for consequences";
-      addLogEntry("Click", "User made a decision with suspicious confidence.");
-      maybeWholesomeMoment();
+    function setNarrator(text) {
+      narratorTextEl.innerHTML = "";
+      const span = document.createElement("span");
+      span.textContent = text;
+      narratorTextEl.appendChild(span);
+    }
+
+    function addLog(kind, detail) {
+      const time = new Date().toLocaleTimeString();
+      const div = document.createElement("div");
+      div.className = "log-entry";
+      div.innerHTML = `<strong>[${time}]</strong> <span class="kind">${kind}</span> ${detail}`;
+      logEl.prepend(div);
+      const entries = logEl.querySelectorAll(".log-entry");
+      if (entries.length > 80) {
+        entries[entries.length - 1].remove();
+      }
+    }
+
+    function updateSarcasmLabel() {
+      if (sarcasmLevel <= 3) {
+        sarcasmLabelEl.textContent = "Low (suspicious)";
+      } else if (sarcasmLevel <= 7) {
+        sarcasmLabelEl.textContent = "Medium (comfortable)";
+      } else {
+        sarcasmLabelEl.textContent = "Unnecessary (excellent)";
+      }
+    }
+
+    function randomLifeStats() {
+      // generate fake stats that feel plausible
+      const tabs = Math.floor(Math.random() * 9) + 5; // 5–13
+      const phone = Math.floor(Math.random() * 25) + 20; // 20–45
+      const done = Math.floor(Math.random() * 4); // 0–3
+      const started = done + Math.floor(Math.random() * 10) + 5; // done + 5–14
+
+      tabsStatEl.textContent = tabs;
+      phoneStatEl.textContent = phone;
+      tasksStatEl.textContent = `${done} / ${started}`;
+      laterStatEl.textContent = "∞";
+
+      const progress = 30 + Math.random() * 40; // 30–70%
+      lifeProgressFill.style.width = progress + "%";
+
+      if (progress < 40) {
+        lifeLabelLeft.textContent = "You’re not behind";
+        lifeLabelRight.textContent = "everyone else is lying";
+      } else if (progress < 60) {
+        lifeLabelLeft.textContent = "You’re doing fine*";
+        lifeLabelRight.textContent = "*ish";
+      } else {
+        lifeLabelLeft.textContent = "Suspiciously functional today";
+        lifeLabelRight.textContent = "who are you";
+      }
+    }
+
+    // ===== INTERACTIONS =====
+    sarcasmRange.addEventListener("input", (e) => {
+      sarcasmLevel = parseInt(e.target.value, 10) || 0;
+      updateSarcasmLabel();
+      if (sarcasmLevel <= 3) {
+        setNarrator("Sarcasm dialed down. I’ll try to be nice. No guarantees.");
+      } else if (sarcasmLevel <= 7) {
+        setNarrator("Sarcasm at healthy levels. Mildly dangerous, just like you.");
+      } else {
+        setNarrator("Sarcasm maxed. Bold choice. Respect.");
+      }
+      addLog("Settings", `Sarcasm level set to ${sarcasmLevel}/10.`);
     });
 
-    tinyActionBtn.addEventListener("click", () => {
-      recordInteraction();
-      setNarratorLine(randomFrom(narratorLines.clickMinor));
-      setStageLine("minor");
-      stageStateEl.textContent = "Mood: Overanalyzing small choices";
-      addLogEntry("Click", "User did something tiny. Website took it personally.");
-      maybeWholesomeMoment();
+    complimentBtn.addEventListener("click", () => {
+      const line = randomFrom(compliments);
+      setNarrator(line);
+      statusLineEl.textContent = "Compliment delivered. Do not get used to this.";
+      addLog("Compliment", line);
+      randomLifeStats();
+    });
+
+    roastBtn.addEventListener("click", () => {
+      const line = randomFrom(roasts);
+      setNarrator(line);
+      statusLineEl.textContent = "Roast requested. Emotional damage: moderate.";
+      addLog("Roast", line);
+      randomLifeStats();
     });
 
     chaosBtn.addEventListener("click", () => {
-      recordInteraction();
-      if (!chaosToggle.checked) {
-        setNarratorLine("Chaos button pressed while chaos is disabled. That’s… a choice.");
-        stageStateEl.textContent = "Mood: Conflicted but intrigued";
-        setStageLine("minor");
-        addLogEntry("Chaos", "User wanted chaos, but the safety is on.");
-      } else {
-        setNarratorLine(randomFrom(narratorLines.chaos));
-        setStageLine("chaos");
-        stageStateEl.textContent = "Mood: Unsupervised and proud of it";
-        addLogEntry("Chaos", "User explicitly consented to nonsense.");
-      }
-      maybeWholesomeMoment();
+      const line = randomFrom(chaosLines);
+      setNarrator(line);
+      statusLineEl.textContent = "Chaos mode touched. You did this to yourself.";
+      addLog("Chaos", "User willingly pressed the chaos button.");
+      // visually wiggle some stats for chaos
+      lifeProgressFill.style.transition = "width 0.15s ease-out";
+      lifeProgressFill.style.width = (20 + Math.random() * 60) + "%";
+      setTimeout(() => {
+        lifeProgressFill.style.transition = "width 0.4s ease-out";
+      }, 250);
+      randomLifeStats();
     });
 
-    apologizeBtn.addEventListener("click", () => {
-      recordInteraction();
-      setNarratorLine(randomFrom(narratorLines.apology));
-      setStageLine("apology");
-      stageStateEl.textContent = "Mood: Emotionally processing";
-      addLogEntry("Apology", "User apologized to the website. History will remember this.");
-      maybeWholesomeMoment();
-    });
-
-    // Sarcasm slider
-    sarcasmSlider.addEventListener("input", (e) => {
-      sarcasmLevel = parseInt(e.target.value, 10) || 0;
-      updateSarcasmUI();
-      recordInteraction();
-
-      if (sarcasmLevel <= 3) {
-        setNarratorLine("Sarcasm dialed down. I’ll try being normal. No promises.");
-      } else if (sarcasmLevel <= 7) {
-        setNarratorLine("Sarcasm set to ‘respectable.’ Balance is for the weak, but fine.");
-      } else {
-        setNarratorLine("Sarcasm maxed. You asked for this.");
-      }
-      addLogEntry("Settings", `User set sarcasm level to ${sarcasmLevel}/10.`);
-    });
-
-    chaosToggle.addEventListener("change", () => {
-      recordInteraction();
-      if (chaosToggle.checked) {
-        setNarratorLine("Chaos enabled. Excellent survival strategy.");
-        addLogEntry("Settings", "User enabled unhinged reactions.");
-      } else {
-        setNarratorLine("Chaos disabled. We are now in professional mode. Ew.");
-        addLogEntry("Settings", "User disabled unhinged reactions. Website is sulking.");
-      }
-    });
-
-    wholesomeToggle.addEventListener("change", () => {
-      recordInteraction();
-      if (wholesomeToggle.checked) {
-        setNarratorLine("Wholesome mode on. Expect rare but genuine kindness.");
-        addLogEntry("Settings", "User enabled wholesome interludes. Feelings detected.");
-      } else {
-        setNarratorLine("Wholesome mode off. Back to emotional deflection.");
-        addLogEntry("Settings", "User disabled wholesome interludes. Edge restored.");
-      }
-    });
-
-    // Scroll behavior
+    // Scroll reactions
     window.addEventListener("scroll", () => {
-      recordInteraction();
       if (scrollTimeout) clearTimeout(scrollTimeout);
-      scrollHintEl.style.opacity = "0"; // hide after first active scroll
+      scrollHintEl.style.opacity = "0";
 
       const delta = Math.abs(window.scrollY - lastScrollY);
       if (delta > 40) {
-        setNarratorLine(randomFrom(narratorLines.scroll));
-        setStageLine("scroll");
-        stageStateEl.textContent = "Mood: Dramatically descending";
-        addLogEntry("Scroll", `User scrolled by ~${delta.toFixed(0)} pixels.`);
+        setNarrator(randomFrom(narratorScrollLines));
+        addLog("Scroll", `User scrolled roughly ${delta.toFixed(0)}px. For what.`);
+
+        if (Math.random() < 0.3) {
+          randomLifeStats();
+        }
       }
       lastScrollY = window.scrollY;
 
       scrollTimeout = setTimeout(() => {
-        setNarratorLine("The scrolling stops. The overthinking continues.");
+        setNarrator("The scrolling paused. The overthinking did not.");
       }, 900);
     });
 
-    // Idle detection
+    // Idle reactions
     function resetIdleTimer() {
       if (idleTimer) clearTimeout(idleTimer);
       idleTimer = setTimeout(() => {
-        setNarratorLine(randomFrom(narratorLines.idle));
-        setStageLine("idle");
-        stageStateEl.textContent = "Mood: Suspiciously quiet";
-        addLogEntry("Idle", "User did nothing for a dramatically long moment.");
-        maybeWholesomeMoment();
+        setNarrator(randomFrom(narratorIdleLines));
+        addLog("Idle", "No activity detected. Assuming dramatic staring or new tab.");
       }, idleDelayMs);
     }
 
-    ["mousemove", "keydown", "click", "scroll"].forEach((evt) =>
+    ["mousemove", "keydown", "click"].forEach((evt) =>
       window.addEventListener(evt, () => {
-        recordInteraction();
         resetIdleTimer();
       })
     );
     resetIdleTimer();
 
-    // Resize dramatics
-    window.addEventListener("resize", () => {
-      recordInteraction();
-      if (resizeTimeout) clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        setNarratorLine(randomFrom(narratorLines.resize));
-        setStageLine("resize");
-        stageStateEl.textContent = "Mood: Experiencing an aspect ratio crisis";
-        addLogEntry("Resize", "User reshaped the window like it was their life plan.");
-      }, 350);
-    });
-
-    // Focus / blur
+    // Tab focus/blur
     window.addEventListener("blur", () => {
-      setNarratorLine(randomFrom(narratorLines.blur));
-      setStageLine("blur");
-      stageStateEl.textContent = "Mood: Abandoned for another tab";
-      addLogEntry("Focus", "User left the tab. Trust issues intensify.");
+      setNarrator(randomFrom(narratorBlurLines));
+      addLog("Focus", "User left the tab. Betrayal recorded.");
     });
 
     window.addEventListener("focus", () => {
-      recordInteraction();
-      setNarratorLine(randomFrom(narratorLines.focus));
-      setStageLine("focus");
-      stageStateEl.textContent = "Mood: Begrudgingly pleased you returned";
-      addLogEntry("Focus", "User returned to the tab. Sequel unlocked.");
-      maybeWholesomeMoment();
+      setNarrator(randomFrom(narratorFocusLines));
+      addLog("Focus", "User returned to the tab. Suspicious but welcome.");
+      randomLifeStats();
     });
 
-    // Initial UI state
-    updateSarcasmUI();
-    updateDiagnosis();
+    // Initial state
+    updateSarcasmLabel();
+    randomLifeStats();
 
-    // Subtle hint fade-out later
+    // Scroll hint soft fade
     setTimeout(() => {
-      scrollHintEl.style.opacity = "0.45";
+      scrollHintEl.style.opacity = "0.5";
     }, 4000);
   </script>
 </body>
